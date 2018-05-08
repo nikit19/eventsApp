@@ -1,4 +1,4 @@
-package info.androidhive.retrofit.rest;
+package com.example.nikit.eventsapp.rest;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

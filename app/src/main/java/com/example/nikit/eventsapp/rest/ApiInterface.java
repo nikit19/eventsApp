@@ -1,6 +1,6 @@
-package info.androidhive.retrofit.rest;
+package com.example.nikit.eventsapp.rest;
 
-import info.androidhive.retrofit.model.MoviesResponse;
+import com.example.nikit.eventsapp.model.MoviesResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;

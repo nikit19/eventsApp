@@ -1,4 +1,4 @@
-package info.androidhive.retrofit.adapter;
+package com.example.nikit.eventsapp.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import info.androidhive.retrofit.R;
-import info.androidhive.retrofit.model.Movie;
+import com.example.nikit.eventsapp.R;
+import com.example.nikit.eventsapp.model.Movie;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
 

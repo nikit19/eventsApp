@@ -1,4 +1,4 @@
-package info.androidhive.retrofit.model;
+package com.example.nikit.eventsapp.model;
 
 import com.google.gson.annotations.SerializedName;
 
