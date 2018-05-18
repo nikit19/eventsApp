@@ -29,25 +29,23 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     ApiInterface apiService;
-    EditText ei,e2;
-    Button b;
+    EditText usernameEt,passwordEt;
+    Button loginBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-         apiService =
-                ApiClient.getClient().create(ApiInterface.class);
-         ei= findViewById(R.id.a);
-        e2=findViewById(R.id.aa);
-        b=findViewById(R.id.ss);
+        apiService = ApiClient.getClient().create(ApiInterface.class);
+        usernameEt= findViewById(R.id.username_edit_text);
+        passwordEt=findViewById(R.id.password_edit_text);
+        loginBtn=findViewById(R.id.login_button);
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendPost(usernameEt.getText().toString(),passwordEt.getText().toString());
+            }
+        });
 
-b.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        sendPost(ei.getText().toString(),e2.getText().toString());
-
-    }
-});
         /*ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
@@ -68,7 +66,7 @@ b.setOnClickListener(new View.OnClickListener() {
 
     }
     public void sendPost(String title, String body) {
-Login login=new Login(title.trim(),body.trim()) ;
+        Login login=new Login(title.trim(),body.trim()) ;
 //        apiService.login(login).enqueue(new Callback<LoginResponse>() {
 //            @Override
 //            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
