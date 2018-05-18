@@ -94,13 +94,13 @@ Login login=new Login(title.trim(),body.trim()) ;
             @Override
             public void onResponse(Call<LoginResponse>call, Response<LoginResponse> response) {
                if(response.isSuccessful()) {
-                   String movies = response.body().toString();
+                   String movies = response.body().getAccessToken();
                    // Log.d(TAG, "Number of movies received: " + movies.size());
 
                    Toast.makeText(getApplicationContext(), "post submitted to API. " + movies, Toast.LENGTH_LONG).show();
                }
                else{
-                   Toast.makeText(getApplicationContext(), "post submitted to API. " +response.errorBody(), Toast.LENGTH_LONG).show();
+                   Toast.makeText(getApplicationContext(), "post submitted to API with error. "+response.code()+"    " +response.errorBody(), Toast.LENGTH_LONG).show();
 
                }
             }
