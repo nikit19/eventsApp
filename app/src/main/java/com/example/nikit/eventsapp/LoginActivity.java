@@ -84,8 +84,7 @@ public class LoginActivity extends AppCompatActivity {
 //
 //            }
 //        });
-        ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
         Call<LoginResponse> call = apiService.login(login);
         call.enqueue(new Callback<LoginResponse>() {
@@ -93,12 +92,13 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<LoginResponse>call, Response<LoginResponse> response) {
                if(response.isSuccessful()) {
                    String movies = response.body().getAccessToken();
-                   // Log.d(TAG, "Number of movies received: " + movies.size());
+                    Log.d("harsimarSingh", "success");
 
-                   Toast.makeText(getApplicationContext(), "post submitted to API. " + movies, Toast.LENGTH_LONG).show();
+                   Toast.makeText(LoginActivity.this, "post submitted to API. " + movies, Toast.LENGTH_LONG).show();
                }
                else{
-                   Toast.makeText(getApplicationContext(), "post submitted to API with error. "+response.code()+"    " +response.errorBody(), Toast.LENGTH_LONG).show();
+                   Log.d("harsimarSingh", "error");
+                   Toast.makeText(LoginActivity.this, "post submitted to API with error. "+response.code()+"    " +response.errorBody(), Toast.LENGTH_LONG).show();
 
                }
             }
@@ -107,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(Call<LoginResponse>call, Throwable t) {
                 // Log error here since request failed
                // Log.e(TAG, t.toString());
+                Log.d("harsimarSingh", "failure");
                        Toast.makeText(getApplicationContext(),"Unable to submit post to API." ,Toast.LENGTH_LONG).show();
 
             }
