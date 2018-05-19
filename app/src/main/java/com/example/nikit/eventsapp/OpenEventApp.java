@@ -115,6 +115,8 @@ public class OpenEventApp extends MultiDexApplication {
             Picasso.setSingletonInstance(picasso);
 
             Timber.plant(new Timber.DebugTree());
+        } else{
+            Timber.plant(new Timber.DebugTree());
         }
 
         //Initialize Picasso with cache
