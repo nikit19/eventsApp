@@ -7,16 +7,18 @@
     android:layout_height="match_parent"
     tools:context="com.example.nikit.eventsapp.LoginActivity">
 <EditText
-    android:layout_width="wrap_content"
-    android:id="@+id/a"
+    android:layout_width="match_parent"
+    android:id="@+id/username_edit_text"
+    android:hint="Username"
     android:layout_height="wrap_content" />
     <EditText
-        android:layout_width="wrap_content"
-        android:id="@+id/aa"
+        android:layout_width="match_parent"
+        android:id="@+id/password_edit_text"
+        android:hint="Password"
         android:layout_height="wrap_content" />
     <Button
         android:layout_width="wrap_content"
-        android:text="hey"
-        android:id="@+id/ss"
+        android:text="Login"
+        android:id="@+id/login_button"
         android:layout_height="wrap_content" />
 </LinearLayout>
