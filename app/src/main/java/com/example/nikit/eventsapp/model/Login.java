@@ -1,33 +1,22 @@
 package com.example.nikit.eventsapp.model;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by nikit on 11/5/18.
- */
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+
+@Data
+@JsonNaming(PropertyNamingStrategy.KebabCaseStrategy.class)
 
 public class Login {
+
     @SerializedName("email")
     private String email;
     @SerializedName("password")
     private String password;
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public Login(String email, String password) {
         this.email = email;

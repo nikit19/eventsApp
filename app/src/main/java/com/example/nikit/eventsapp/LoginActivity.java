@@ -42,7 +42,8 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendPost(usernameEt.getText().toString(),passwordEt.getText().toString());
+                //sendPost(usernameEt.getText().toString(),passwordEt.getText().toString());
+                sendPost("hey@hey.hey","heyheyhey");
             }
         });
 

@@ -22,7 +22,7 @@ public interface ApiInterface {
     @GET("movie/{id}")
     Call<MoviesResponse> getMovieDetails(@Path("id") int id, @Query("api_key") String apiKey);
 
-    @Headers("Content-Type: application/json")
+   // @Headers("Content-Type: application/json")
     @POST("auth/session")
     Call<LoginResponse> login(@Body Login login);
 }
