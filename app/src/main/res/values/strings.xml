@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">eventsApp</string>
+    <string name="logged_out_successfully">Logged out!</string>
 </resources>
