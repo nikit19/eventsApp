@@ -1,27 +1,34 @@
 package com.example.nikit.eventsapp.rest;
 
-import io.reactivex.Observable;
-
+import com.example.nikit.eventsapp.model.Event;
 import com.example.nikit.eventsapp.model.Login;
 import com.example.nikit.eventsapp.model.LoginResponse;
-import com.example.nikit.eventsapp.model.MoviesResponse;
+import com.example.nikit.eventsapp.model.User;
+
+import java.util.List;
+
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Headers;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
-
 
 public interface ApiInterface {
-    @GET("movie/top_rated")
-    Call<MoviesResponse> getTopRatedMovies(@Query("api_key") String apiKey);
 
-    @GET("movie/{id}")
-    Call<MoviesResponse> getMovieDetails(@Path("id") int id, @Query("api_key") String apiKey);
+    @POST("../../users")
+    Observable<User> signUp(@Body User user);
 
-    @Headers("Content-Type: application/json")
-    @POST("auth/session")
-    Call<LoginResponse> login(@Body Login login);
+    @POST("../../../auth/session")
+    Observable<LoginResponse> login(@Body Login login);
+
+    @GET("../../users/{id}")
+    Observable<User> getUser(@Path("id") long id);
+
+    @PATCH("../../users/{id}")
+    Observable<User> updateUser(@Body User user, @Path("id") long id);
+
+    @GET("../../events")
+    Call<List<Event>> getEvents();
 }
