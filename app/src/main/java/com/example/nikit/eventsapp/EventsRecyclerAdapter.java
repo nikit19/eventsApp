@@ -71,7 +71,6 @@ public class EventsRecyclerAdapter extends RecyclerView.Adapter<EventsRecyclerAd
                     .into(holder.eventImage);
         }
 
-
         Log.d("harsimarSingh","Setting "+events.get(position).getAttributes().getOrganizerDescription());
     }
 
