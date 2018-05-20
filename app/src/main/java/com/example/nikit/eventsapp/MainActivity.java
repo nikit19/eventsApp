@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<EventList> call, Response<EventList> response) {
                 if(response.isSuccessful()){
-                    Log.d("harsimarSingh","Response Success "+response.body().toString());
+                    Log.d("harsimarSingh","Response Success ");
                     eventList.addAll(response.body().getEventList());
                     eventsRecyclerAdapter.addAll(eventList);
                     eventsRecyclerAdapter.notifyDataSetChanged();
