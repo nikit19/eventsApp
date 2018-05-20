@@ -15,6 +15,8 @@ public class Attributes {
     private String organizerDescription;
     @SerializedName("starts-at")
     private String startsAt;
+    @SerializedName("original-image-url")
+    private String originalImageUrl;
     public String getStartsAt() {
         return startsAt;
     }
@@ -30,4 +32,6 @@ public class Attributes {
     public String getOrganizerDescription() {
         return organizerDescription;
     }
+
+    public String getOriginalImageUrl() {return originalImageUrl; }
 }

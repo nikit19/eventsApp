@@ -11,9 +11,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.nikit.eventsapp.model.Event;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +25,14 @@ public class EventsRecyclerAdapter extends RecyclerView.Adapter<EventsRecyclerAd
     public static class EventViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
         TextView eventNameTv,eventStartsAt;
+        ImageView eventImage;
 
         EventViewHolder(View itemView) {
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.all_events_card);
             eventNameTv = (TextView)itemView.findViewById(R.id.all_events_card_event_name);
             eventStartsAt = (TextView)itemView.findViewById(R.id.all_events_card_starts_at);
-
+            eventImage = (ImageView)itemView.findViewById(R.id.all_events_card_image);
         }
     }
     List<Event> events;
@@ -55,6 +58,13 @@ public class EventsRecyclerAdapter extends RecyclerView.Adapter<EventsRecyclerAd
 
         holder.eventNameTv.setText(events.get(position).getAttributes().getName());
         holder.eventStartsAt.setText(startAt.substring(0,9));
+
+        Picasso.get()
+                .load("https://www.google.co.in/url?sa=i&source=images&cd=&ved=&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fflower%2F&psig=AOvVaw3o5ZzPNCQdv55Ba6TWG9i7&ust=1526915030812948")
+                .resize(100, 100)
+                .centerCrop()
+                .into(holder.eventImage);
+
 
         Log.d("harsimarSingh","Setting "+events.get(position).getAttributes().getOrganizerDescription());
     }
