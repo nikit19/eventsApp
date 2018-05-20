@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.nikit.eventsapp.model.Event;
 import com.example.nikit.eventsapp.model.EventList;
@@ -29,11 +31,14 @@ public class MainActivity extends AppCompatActivity {
     private List<Event> eventList;
     private RecyclerView recyclerView;
     private EventsRecyclerAdapter eventsRecyclerAdapter;
-
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        progressBar= findViewById(R.id.progressHeader);
+        progressBar.setIndeterminate(true);
+
         Intent i = getIntent();
         TOKEN = i.getStringExtra("TOKEN");
         TOKEN="JWT "+TOKEN;
@@ -56,6 +61,10 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("harsimarSingh","Response Success ");
                     eventList.addAll(response.body().getEventList());
                     eventsRecyclerAdapter.addAll(eventList);
+
+                    progressBar.setIndeterminate(false);
+                    progressBar.setVisibility(View.INVISIBLE);
+
                     eventsRecyclerAdapter.notifyDataSetChanged();
                     Log.d("harsimarSingh","Fetched Events "+eventList.size());
                 }else {
