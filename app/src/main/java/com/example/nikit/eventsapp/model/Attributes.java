@@ -17,6 +17,13 @@ public class Attributes {
     private String startsAt;
     @SerializedName("original-image-url")
     private String originalImageUrl;
+    @SerializedName("description")
+    private String desciption;
+
+    public String getDesciption() {
+        return desciption;
+    }
+
     public String getStartsAt() {
         return startsAt;
     }

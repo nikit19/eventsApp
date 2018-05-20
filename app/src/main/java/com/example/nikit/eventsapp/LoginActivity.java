@@ -1,5 +1,6 @@
 package com.example.nikit.eventsapp;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     ApiInterface apiService;
     EditText ei,e2;
     Button b;
+    ProgressDialog progressDialog;
     public static String TOKEN=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +34,16 @@ public class LoginActivity extends AppCompatActivity {
         e2=findViewById(R.id.aa);
         b=findViewById(R.id.ss);
         checkToken();
+        progressDialog = new ProgressDialog(LoginActivity.this);
+        progressDialog.setMessage("Logging you in...");
 
 b.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
         //sendPost(ei.getText().toString(),e2.getText().toString());
         sendPost("hey@hey.hey","heyheyhey");
+        progressDialog.show();
+
     }
 });
         /*ApiInterface apiService =
@@ -96,8 +102,9 @@ Login login=new Login(title.trim(),body.trim()) ;
                if(response.isSuccessful()) {
                    String movies = response.body().getAccessToken();
                    // Log.d(TAG, "Number of movies received: " + movies.size());
+                   progressDialog.cancel();
 
-                   Toast.makeText(getApplicationContext(), "post submitted to API. " + movies, Toast.LENGTH_LONG).show();
+                   Toast.makeText(getApplicationContext(), "post submitted to API. " , Toast.LENGTH_LONG).show();
                    TOKEN = movies;
                }
                else{

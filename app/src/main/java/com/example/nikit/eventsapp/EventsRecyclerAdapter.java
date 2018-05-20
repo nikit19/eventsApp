@@ -4,6 +4,7 @@ package com.example.nikit.eventsapp;
  * Created by harsimar on 20/05/18.
  */
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.nikit.eventsapp.model.Attributes;
 import com.example.nikit.eventsapp.model.Event;
 import com.squareup.picasso.Picasso;
 
@@ -24,8 +26,8 @@ public class EventsRecyclerAdapter extends RecyclerView.Adapter<EventsRecyclerAd
 
     public static class EventViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
-        TextView eventNameTv,eventStartsAt;
         ImageView eventImage;
+        TextView eventNameTv,eventStartsAt,desciption;
 
         EventViewHolder(View itemView) {
             super(itemView);
@@ -33,6 +35,7 @@ public class EventsRecyclerAdapter extends RecyclerView.Adapter<EventsRecyclerAd
             eventNameTv = (TextView)itemView.findViewById(R.id.all_events_card_event_name);
             eventStartsAt = (TextView)itemView.findViewById(R.id.all_events_card_starts_at);
             eventImage = (ImageView)itemView.findViewById(R.id.all_events_card_image);
+            desciption = (TextView)itemView.findViewById(R.id.description);
         }
     }
     List<Event> events;
@@ -54,16 +57,19 @@ public class EventsRecyclerAdapter extends RecyclerView.Adapter<EventsRecyclerAd
 
     @Override
     public void onBindViewHolder(@NonNull EventsRecyclerAdapter.EventViewHolder holder, int position) {
-        String startAt=events.get(position).getAttributes().getStartsAt();
 
-        holder.eventNameTv.setText(events.get(position).getAttributes().getName());
-        holder.eventStartsAt.setText(startAt.substring(0,9));
+        Attributes attributes = events.get(position).getAttributes();
+        holder.eventNameTv.setText(attributes.getName());
+        holder.eventStartsAt.setText(attributes.getStartsAt().substring(0,9));
+        holder.desciption.setText(attributes.getDesciption());
 
-        Picasso.get()
-                .load("https://www.google.co.in/url?sa=i&source=images&cd=&ved=&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fflower%2F&psig=AOvVaw3o5ZzPNCQdv55Ba6TWG9i7&ust=1526915030812948")
-                .resize(100, 100)
-                .centerCrop()
-                .into(holder.eventImage);
+        //Picasso
+        if(attributes.getOriginalImageUrl() != null) {
+            Picasso.with(holder.eventImage.getContext())
+                    .load(Uri.parse(attributes.getOriginalImageUrl()))
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .into(holder.eventImage);
+        }
 
 
         Log.d("harsimarSingh","Setting "+events.get(position).getAttributes().getOrganizerDescription());
