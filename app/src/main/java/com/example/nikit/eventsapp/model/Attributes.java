@@ -15,6 +15,13 @@ public class Attributes {
     private String organizerDescription;
     @SerializedName("starts-at")
     private String startsAt;
+    @SerializedName("description")
+    private String desciption;
+
+    public String getDesciption() {
+        return desciption;
+    }
+
     public String getStartsAt() {
         return startsAt;
     }

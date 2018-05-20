@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.nikit.eventsapp.model.Attributes;
 import com.example.nikit.eventsapp.model.Event;
 
 import java.util.ArrayList;
@@ -22,13 +23,14 @@ public class EventsRecyclerAdapter extends RecyclerView.Adapter<EventsRecyclerAd
 
     public static class EventViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
-        TextView eventNameTv,eventStartsAt;
+        TextView eventNameTv,eventStartsAt,desciption;
 
         EventViewHolder(View itemView) {
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.all_events_card);
             eventNameTv = (TextView)itemView.findViewById(R.id.all_events_card_event_name);
             eventStartsAt = (TextView)itemView.findViewById(R.id.all_events_card_starts_at);
+            desciption = (TextView)itemView.findViewById(R.id.description);
 
         }
     }
@@ -51,10 +53,11 @@ public class EventsRecyclerAdapter extends RecyclerView.Adapter<EventsRecyclerAd
 
     @Override
     public void onBindViewHolder(@NonNull EventsRecyclerAdapter.EventViewHolder holder, int position) {
-        String startAt=events.get(position).getAttributes().getStartsAt();
 
-        holder.eventNameTv.setText(events.get(position).getAttributes().getName());
-        holder.eventStartsAt.setText(startAt.substring(0,9));
+        Attributes attributes = events.get(position).getAttributes();
+        holder.eventNameTv.setText(attributes.getName());
+        holder.eventStartsAt.setText(attributes.getStartsAt().substring(0,9));
+        holder.desciption.setText(attributes.getDesciption());
 
         Log.d("harsimarSingh","Setting "+events.get(position).getAttributes().getOrganizerDescription());
     }

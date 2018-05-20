@@ -33,8 +33,16 @@
                     android:text="Event Name"
                     android:textSize="22sp"
                     android:textColor="#fff"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="10dp"
                     android:id="@+id/all_events_card_event_name"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Description"
+                    android:textSize="12sp"
+                    android:textColor="#fff"
+                    android:layout_marginBottom="10dp"
+                    android:id="@+id/description"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:orientation="horizontal"
