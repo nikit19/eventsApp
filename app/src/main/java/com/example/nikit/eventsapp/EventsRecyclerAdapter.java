@@ -19,8 +19,13 @@ import com.example.nikit.eventsapp.model.Attributes;
 import com.example.nikit.eventsapp.model.Event;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class EventsRecyclerAdapter extends RecyclerView.Adapter<EventsRecyclerAdapter.EventViewHolder> {
 
@@ -60,8 +65,8 @@ public class EventsRecyclerAdapter extends RecyclerView.Adapter<EventsRecyclerAd
 
         Attributes attributes = events.get(position).getAttributes();
         holder.eventNameTv.setText(attributes.getName());
-        holder.eventStartsAt.setText(attributes.getStartsAt().substring(0,9));
         holder.desciption.setText(attributes.getDesciption());
+        holder.eventStartsAt.setText(dateFormat(attributes));
 
         //Picasso
         if(attributes.getOriginalImageUrl() != null) {
@@ -77,6 +82,21 @@ public class EventsRecyclerAdapter extends RecyclerView.Adapter<EventsRecyclerAd
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
+    }
+
+    public String dateFormat(Attributes attributes){
+        String returnString = "";
+        String string = attributes.getStartsAt().substring(0,9);
+        DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
+        Date date = null;
+        try {
+            date = format.parse(string);
+            SimpleDateFormat dt1 = new SimpleDateFormat("dd MMMM yyyy");
+            returnString = dt1.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return returnString;
     }
 
     @Override
