@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.nikit.eventsapp.model.AttributesUser;
@@ -35,6 +36,7 @@ public class ProfileFragment extends Fragment {
     private TextView firstNameTv;
     private TextView emailTv;
     private ImageView avatarImageView;
+    private ProgressBar progressBar;
 
 
 
@@ -65,7 +67,11 @@ public class ProfileFragment extends Fragment {
 
         firstNameTv = view.findViewById(R.id.first_name_tv);
         emailTv = view.findViewById(R.id.email_tv);
+
         avatarImageView = view.findViewById(R.id.avatar_image_view);
+        progressBar= view.findViewById(R.id.progressHeaderUser);
+
+        progressBar.setIndeterminate(true);
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<User> call = apiService.getProfile(app,TOKEN,userId);
@@ -73,6 +79,9 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if(response.isSuccessful()){
+
+                    progressBar.setIndeterminate(false);
+                    progressBar.setVisibility(View.GONE);
                     Log.d("harsimarSingh","Response Success ");
                     AttributesUser userAttrib = response.body().getUser().getAttributes();
                     firstNameTv.setText(userAttrib.getFirstName());
