@@ -22,20 +22,28 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment fragment;
+            Bundle bundle ;
             switch (item.getItemId()) {
                 case R.id.navigation_events:
                     toolbar.setTitle("Events");
 
-                    Bundle bundle = new Bundle();
+                    bundle = new Bundle();
                     bundle.putString("TOKEN",TOKEN);
 
                     fragment = new EventsFragment();
                     fragment.setArguments(bundle);
                     loadFragment(fragment);
-
                     return true;
                 case R.id.navigation_profile:
                     toolbar.setTitle("Profile");
+
+                    bundle = new Bundle();
+                    bundle.putString("TOKEN",TOKEN);
+
+                    fragment = new ProfileFragment();
+                    fragment.setArguments(bundle);
+                    loadFragment(fragment);
+
                     return true;
                 case R.id.navigation_title1:
                     toolbar.setTitle("Title1");
@@ -63,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
         TOKEN = i.getStringExtra("TOKEN");
         TOKEN="JWT "+TOKEN;
         Log.d("harsimarSingh",TOKEN);
-
         getSupportActionBar().setTitle("Events");
         Bundle bundle = new Bundle();
         bundle.putString("TOKEN",TOKEN);
