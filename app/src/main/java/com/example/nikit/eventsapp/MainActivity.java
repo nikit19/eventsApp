@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.nikit.eventsapp.model.Profile;
+
 public class MainActivity extends AppCompatActivity {
 
     private String TOKEN=null;
@@ -36,6 +38,13 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_profile:
                     toolbar.setTitle("Profile");
+
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString("TOKEN",TOKEN);
+                    fragment = new ProfileFragment();
+                    fragment.setArguments(bundle1);
+                    loadFragment(fragment);
+
                     return true;
                 case R.id.navigation_title1:
                     toolbar.setTitle("Title1");
@@ -70,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
         EventsFragment eventsFragment = new EventsFragment();
         eventsFragment.setArguments(bundle);
         loadFragment(eventsFragment);
+
+
 
 
     }

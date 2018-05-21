@@ -37,15 +37,18 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setMessage("Logging you in...");
 
-b.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        //sendPost(ei.getText().toString(),e2.getText().toString());
-        sendPost("hey@hey.hey","heyheyhey");
-        progressDialog.show();
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendPost(ei.getText().toString(),e2.getText().toString());
+                Bundle bundle = new Bundle();
+                bundle.putString("email",ei.getText().toString());
+                bundle.putString("password",e2.getText().toString());
 
-    }
-});
+                progressDialog.show();
+
+            }
+        });
         /*ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
