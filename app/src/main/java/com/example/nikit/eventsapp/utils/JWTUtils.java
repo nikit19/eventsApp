@@ -1,6 +1,7 @@
 package com.example.nikit.eventsapp.utils;
 
 import android.support.v4.util.SparseArrayCompat;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,8 +14,8 @@ public class JWTUtils {
 
     public static SparseArrayCompat<String> decode(String token) {
         SparseArrayCompat<String> decoded = new SparseArrayCompat<>(2);
-
         String[] split = token.split("\\.");
+
         decoded.append(0, getJson(split[0]));
         decoded.append(1, getJson(split[1]));
 

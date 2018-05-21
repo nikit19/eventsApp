@@ -4,7 +4,9 @@ import com.example.nikit.eventsapp.model.EventList;
 import com.example.nikit.eventsapp.model.Login;
 import com.example.nikit.eventsapp.model.LoginResponse;
 import com.example.nikit.eventsapp.model.MoviesResponse;
+import com.example.nikit.eventsapp.model.Profile;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -29,6 +31,8 @@ public interface ApiInterface {
 //    @Headers({"Accept: application/vnd.api+json","Authorization: JWT "+ })
 //    @GET("/v1/events")
 //    Call<List<Event>> getEvents();
+    @GET("/v1/users/{id}")
+    Call<Profile> getProfileDetails(@Path("id") long id);
 
     @GET("/v1/events")
     Call<EventList> getEvents2(@Header("Accept") String app,
