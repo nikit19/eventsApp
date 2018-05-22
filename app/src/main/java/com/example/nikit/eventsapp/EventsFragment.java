@@ -27,19 +27,15 @@ import retrofit2.Response;
 
 public class EventsFragment extends Fragment {
 
-    private static final String app="application/vnd.api+json";
+    private static final String app = "application/vnd.api+json";
     private List<Event> eventList;
     private RecyclerView recyclerView;
     private EventsRecyclerAdapter eventsRecyclerAdapter;
     private ProgressBar progressBar;
     private String TOKEN = null;
 
-
-
-    public EventsFragment(){
-
+    public EventsFragment() {
     }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,7 +50,7 @@ public class EventsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_events, container, false);
 
-        progressBar= view.findViewById(R.id.progressHeader);
+        progressBar = view.findViewById(R.id.progressHeader);
         progressBar.setIndeterminate(true);
 
         eventList = new ArrayList<>();
@@ -69,12 +65,12 @@ public class EventsFragment extends Fragment {
 
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<EventList> call = apiService.getEvents2(app,TOKEN);
+        Call<EventList> call = apiService.getEvents2(app, TOKEN);
         call.enqueue(new Callback<EventList>() {
             @Override
             public void onResponse(Call<EventList> call, Response<EventList> response) {
-                if(response.isSuccessful()){
-                    Log.d("harsimarSingh","Response Success ");
+                if (response.isSuccessful()) {
+                    Log.d("harsimarSingh", "Response Success ");
                     eventList.addAll(response.body().getEventList());
                     eventsRecyclerAdapter.addAll(eventList);
 
@@ -82,21 +78,18 @@ public class EventsFragment extends Fragment {
                     progressBar.setVisibility(View.GONE);
 
                     eventsRecyclerAdapter.notifyDataSetChanged();
-                    Log.d("harsimarSingh","Fetched Events "+eventList.size());
-                }else {
-                    Log.d("harsimarSingh","Not Successful "+response.code());
+                    Log.d("harsimarSingh", "Fetched Events " + eventList.size());
+                } else {
+                    Log.d("harsimarSingh", "Not Successful " + response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<EventList> call, Throwable t) {
-                Log.d("harsimarSingh","Failure "+t.toString());
+                Log.d("harsimarSingh", "Failure " + t.toString());
             }
         });
-
         return view;
     }
-
-
 }
 
