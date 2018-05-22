@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         apiService = ApiClient.getClient().create(ApiInterface.class);
         usernameET= findViewById(R.id.username_et);
-        passwordET=findViewById(R.id.passward_et);
+        passwordET=findViewById(R.id.password_et);
         loginBtn=findViewById(R.id.login_btn);
         checkToken();
         progressDialog = new ProgressDialog(LoginActivity.this);
