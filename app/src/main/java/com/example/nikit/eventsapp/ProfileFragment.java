@@ -1,6 +1,7 @@
 package com.example.nikit.eventsapp;
 
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -36,6 +38,7 @@ public class ProfileFragment extends Fragment {
     private TextView firstNameTv;
     private TextView emailTv;
     private ImageView avatarImageView;
+    private Button logout;
     private ProgressBar progressBar;
 
 
@@ -67,9 +70,18 @@ public class ProfileFragment extends Fragment {
 
         firstNameTv = view.findViewById(R.id.first_name_tv);
         emailTv = view.findViewById(R.id.email_tv);
-
+        logout = view.findViewById(R.id.logout_btn);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(),LoginActivity.class);
+                i.putExtra("LOGOUT","TRUE");
+                startActivity(i);
+            }
+        });
         avatarImageView = view.findViewById(R.id.avatar_image_view);
         progressBar= view.findViewById(R.id.progressHeaderUser);
+
 
         progressBar.setIndeterminate(true);
 

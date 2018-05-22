@@ -27,6 +27,11 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent i = getIntent();
+        String temp = i.getStringExtra("LOGOUT");
+        if(temp != null && temp.equals("TRUE")){
+            TOKEN = null;
+        }
         setContentView(R.layout.activity_login);
          apiService =
                 ApiClient.getClient().create(ApiInterface.class);
