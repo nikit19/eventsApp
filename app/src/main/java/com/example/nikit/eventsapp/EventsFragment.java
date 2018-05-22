@@ -65,6 +65,7 @@ public class EventsFragment extends Fragment {
 
         eventsRecyclerAdapter = new EventsRecyclerAdapter();
         recyclerView.setAdapter(eventsRecyclerAdapter);
+        recyclerView.setNestedScrollingEnabled(false);
 
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
