@@ -50,35 +50,6 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/change_pass"
-                android:layout_marginBottom="@dimen/layout_margin_extra_small"
-                app:cardBackgroundColor="@color/white">
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="@dimen/padding_large"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_gravity="center|start"
-                        android:layout_width="wrap_content"
-                        android:textColor="@color/black"
-                        android:layout_height="wrap_content"
-                        android:text="Change Password"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center|end"
-                        android:src="@drawable/ic_create_black_24dp"/>
-
-
-                </FrameLayout>
-
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/logout_btn"
                 app:cardBackgroundColor="@color/white">
                 <FrameLayout
