@@ -11,4 +11,13 @@
     <!--event details-->
     <string name="event_card_date">Event Date :</string>
 
+    <!--profile details-->
+    <string name="user_name">Username</string>
+    <string name="logout">Logout</string>
+    <string name="login">Login</string>
+    <string name="sign_in">No account yet? Create one</string>
+    <string name="email">example@gmail.com</string>
+
+
+
 </resources>
