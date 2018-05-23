@@ -46,7 +46,7 @@
                         android:id="@+id/month"
                         android:layout_marginTop="3dp"
                         android:layout_height="wrap_content"
-                        android:text="JAN"/>
+                        tools:text="JAN"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                         android:textSize="@dimen/text_size_medium"
                         android:id="@+id/date"
                         android:textColor="@color/colorAccent"
-                        android:text="15"/>
+                        tools:text="15"/>
                 </LinearLayout>
 
                 <LinearLayout
