@@ -1,5 +1,4 @@
-package com.example.nikit.eventsapp;
-
+package org.fossasia.openevent.general;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,47 +8,46 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.example.nikit.eventsapp.EventsFragment;
+import com.example.nikit.eventsapp.ProfileFragment;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String TOKEN=null;
+    @BindView(R.id.navigation)
+    protected BottomNavigationView navigation;
+
     private ActionBar toolbar;
+    private SharedPreferencesUtil sharedPreferencesUtil;
+    private String TOKEN = null;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment fragment;
-            Bundle bundle ;
             switch (item.getItemId()) {
                 case R.id.navigation_events:
                     toolbar.setTitle("Events");
-
-                    bundle = new Bundle();
-                    bundle.putString("TOKEN",TOKEN);
-
                     fragment = new EventsFragment();
-                    fragment.setArguments(bundle);
                     loadFragment(fragment);
                     return true;
                 case R.id.navigation_profile:
-                    toolbar.setTitle("Profile");
-
-                    bundle = new Bundle();
-                    bundle.putString("TOKEN",TOKEN);
-
-                    fragment = new ProfileFragment();
-                    fragment.setArguments(bundle);
-                    loadFragment(fragment);
-
-                    return true;
-                case R.id.navigation_title1:
-                    toolbar.setTitle("Title1");
-                    return true;
-                case R.id.navigation_title2:
-                    toolbar.setTitle("Title2");
+                    if (TOKEN != null) {
+                        toolbar.setTitle("Profile");
+                        fragment = new ProfileFragment();
+                        loadFragment(fragment);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "You need to login first!" , Toast.LENGTH_LONG).show();
+                        Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(i);
+                        finish();
+                    }
                     return true;
             }
             return false;
@@ -60,25 +58,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         toolbar = getSupportActionBar();
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         toolbar.hide();
-
-
-
-        Intent i = getIntent();
-        TOKEN = i.getStringExtra("TOKEN");
-        TOKEN="JWT "+TOKEN;
-        Log.d("harsimarSingh",TOKEN);
         getSupportActionBar().setTitle("Events");
-        Bundle bundle = new Bundle();
-        bundle.putString("TOKEN",TOKEN);
+        sharedPreferencesUtil = new SharedPreferencesUtil(this);
+        TOKEN = sharedPreferencesUtil.getString(ConstantStrings.TOKEN, null);
+
         EventsFragment eventsFragment = new EventsFragment();
-        eventsFragment.setArguments(bundle);
         loadFragment(eventsFragment);
-
-
     }
 
     private void loadFragment(Fragment fragment) {
@@ -87,5 +76,4 @@ public class MainActivity extends AppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
     }
-
 }
