@@ -93,7 +93,7 @@ public class EventsFragment extends Fragment {
         });
         return view;
     }
-}
+
 
     public void notifyItems() {
         int firstVisible = linearLayoutManager.findFirstVisibleItemPosition();
