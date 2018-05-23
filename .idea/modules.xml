@@ -3,9 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/eventsApp.iml" filepath="$PROJECT_DIR$/eventsApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/open-event-general-GSOC.iml" filepath="$PROJECT_DIR$/.idea/open-event-general-GSOC.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/open-event-general22.iml" filepath="$PROJECT_DIR$/.idea/open-event-general22.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/open-event-general23.iml" filepath="$PROJECT_DIR$/.idea/open-event-general23.iml" />
     </modules>
   </component>
 </project>
