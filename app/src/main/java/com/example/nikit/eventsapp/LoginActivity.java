@@ -14,6 +14,8 @@ import com.example.nikit.eventsapp.model.Login;
 import com.example.nikit.eventsapp.model.LoginResponse;
 import com.example.nikit.eventsapp.rest.ApiClient;
 import com.example.nikit.eventsapp.rest.ApiInterface;
+import com.example.nikit.eventsapp.utils.ConstantStrings;
+import com.example.nikit.eventsapp.utils.SharedPreferencesUtil;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,21 +27,22 @@ public class LoginActivity extends AppCompatActivity {
     Button loginBtn;
     ProgressDialog progressDialog;
     public static String TOKEN=null;
+    private SharedPreferencesUtil sharedPreferencesUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent i = getIntent();
-        String temp = i.getStringExtra("LOGOUT");
-        if(temp != null && temp.equals("TRUE")){
-            TOKEN = null;
-        }
+        sharedPreferencesUtil = new SharedPreferencesUtil(getApplicationContext());
+        String token = sharedPreferencesUtil.getString(ConstantStrings.TOKEN,null);
+        Log.d("harsimarSingh","Token is "+token);
+        if(token!=null)
+            redirectToMain();
+
         setContentView(R.layout.activity_login);
         apiService = ApiClient.getClient().create(ApiInterface.class);
         usernameET= findViewById(R.id.username_et);
         passwordET=findViewById(R.id.password_et);
         loginBtn=findViewById(R.id.login_btn);
-        checkToken();
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setMessage("Logging you in...");
 
@@ -54,13 +57,10 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
-    public void checkToken(){
-        if(TOKEN != null){
+    public void redirectToMain(){
             Intent i = new Intent(LoginActivity.this,MainActivity.class);
-            i.putExtra("TOKEN",TOKEN);
             startActivity(i);
             this.finish();
-        }
     }
     public void sendPost(String title, String body) {
         Login login=new Login(title.trim(),body.trim()) ;
@@ -78,8 +78,11 @@ public class LoginActivity extends AppCompatActivity {
                    Toast.makeText(getApplicationContext(), "Error Occured "+response.code(), Toast.LENGTH_LONG).show();
                    Log.d("harsimarSingh","Error "+response.code() + " Error body "+response.errorBody());
                }
-                progressDialog.cancel();
-               checkToken();
+               progressDialog.cancel();
+               sharedPreferencesUtil.putString(ConstantStrings.TOKEN,TOKEN);
+               if(TOKEN!=null)
+                   redirectToMain();
+
             }
 
             @Override
@@ -87,7 +90,6 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Error contacting API." ,Toast.LENGTH_LONG).show();
                 Log.d("harsimarSingh","Failure "+t.toString());
                 TOKEN =null;
-                checkToken();
                 progressDialog.cancel();
             }
         });

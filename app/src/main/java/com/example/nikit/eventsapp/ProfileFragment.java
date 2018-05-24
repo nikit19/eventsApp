@@ -2,7 +2,6 @@ package com.example.nikit.eventsapp;
 
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,7 +18,9 @@ import com.example.nikit.eventsapp.model.AttributesUser;
 import com.example.nikit.eventsapp.model.User;
 import com.example.nikit.eventsapp.rest.ApiClient;
 import com.example.nikit.eventsapp.rest.ApiInterface;
+import com.example.nikit.eventsapp.utils.ConstantStrings;
 import com.example.nikit.eventsapp.utils.JWTUtils;
+import com.example.nikit.eventsapp.utils.SharedPreferencesUtil;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -41,6 +41,7 @@ public class ProfileFragment extends Fragment {
     private ImageView avatarImageView;
     private CardView logout;
     private ProgressBar progressBar;
+    private SharedPreferencesUtil sharedPreferencesUtil;
 
 
 
@@ -52,16 +53,25 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            TOKEN = getArguments().getString("TOKEN");
-            try {
-                userId = JWTUtils.getIdentity(TOKEN);
-                Log.d("harsimarSingh", "User id is "+ userId);
+        sharedPreferencesUtil = new SharedPreferencesUtil(getActivity());
+        TOKEN = sharedPreferencesUtil.getString(ConstantStrings.TOKEN,null);
+        if(TOKEN == null)
+            redirectToLogin();
+        TOKEN = "JWT "+TOKEN;
+        try {
+            userId = JWTUtils.getIdentity(TOKEN);
+            Log.d("harsimarSingh", "User id is "+ userId);
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
+
+    }
+
+    private void redirectToLogin() {
+        Intent i =new Intent(getActivity(),LoginActivity.class);
+        startActivity(i);
     }
 
     @Override
@@ -75,9 +85,9 @@ public class ProfileFragment extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(),LoginActivity.class);
-                i.putExtra("LOGOUT","TRUE");
-                startActivity(i);
+                sharedPreferencesUtil.remove(ConstantStrings.TOKEN);
+                redirectToLogin();
+
             }
         });
         avatarImageView = view.findViewById(R.id.avatar_image_view);

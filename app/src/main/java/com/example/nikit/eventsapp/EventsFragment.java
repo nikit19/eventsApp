@@ -16,6 +16,8 @@ import com.example.nikit.eventsapp.model.Event;
 import com.example.nikit.eventsapp.model.EventList;
 import com.example.nikit.eventsapp.rest.ApiClient;
 import com.example.nikit.eventsapp.rest.ApiInterface;
+import com.example.nikit.eventsapp.utils.ConstantStrings;
+import com.example.nikit.eventsapp.utils.SharedPreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,7 @@ public class EventsFragment extends Fragment {
     private ProgressBar progressBar;
     private LinearLayoutManager linearLayoutManager;
     private String TOKEN = null;
+    SharedPreferencesUtil sharedPreferencesUtil ;
 
     public EventsFragment() {
     }
@@ -42,9 +45,9 @@ public class EventsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            TOKEN = getArguments().getString("TOKEN");
-        }
+        sharedPreferencesUtil = new SharedPreferencesUtil(getActivity());
+        TOKEN = sharedPreferencesUtil.getString(ConstantStrings.TOKEN,null);
+        TOKEN = "JWT "+TOKEN;
     }
 
     @Override
