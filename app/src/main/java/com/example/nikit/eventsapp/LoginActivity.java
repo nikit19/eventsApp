@@ -14,6 +14,8 @@ import com.example.nikit.eventsapp.model.Login;
 import com.example.nikit.eventsapp.model.LoginResponse;
 import com.example.nikit.eventsapp.rest.ApiClient;
 import com.example.nikit.eventsapp.rest.ApiInterface;
+import com.example.nikit.eventsapp.utils.ConstantStrings;
+import com.example.nikit.eventsapp.utils.SharedPreferencesUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,20 +32,24 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.login_btn)
     protected Button loginBtn;
     ProgressDialog progressDialog;
-    public static String TOKEN = null;
+    public static String TOKEN=null;
+    private SharedPreferencesUtil sharedPreferencesUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent i = getIntent();
-        String temp = i.getStringExtra("LOGOUT");
-        if (temp != null && temp.equals("TRUE")) {
-            TOKEN = null;
-        }
+        sharedPreferencesUtil = new SharedPreferencesUtil(getApplicationContext());
+        String token = sharedPreferencesUtil.getString(ConstantStrings.TOKEN,null);
+        Log.d("harsimarSingh","Token is "+token);
+        if(token!=null)
+            redirectToMain();
+
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         apiService = ApiClient.getClient().create(ApiInterface.class);
-        checkToken();
+        usernameET= findViewById(R.id.username_et);
+        passwordET=findViewById(R.id.password_et);
+        loginBtn=findViewById(R.id.login_btn);
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setMessage("Logging you in...");
 
@@ -58,14 +64,10 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
-
-    public void checkToken() {
-        if (TOKEN != null) {
-            Intent i = new Intent(LoginActivity.this, MainActivity.class);
-            i.putExtra("TOKEN", TOKEN);
+    public void redirectToMain(){
+            Intent i = new Intent(LoginActivity.this,MainActivity.class);
             startActivity(i);
             this.finish();
-        }
     }
 
     public void sendPost(String title, String body) {
@@ -74,25 +76,28 @@ public class LoginActivity extends AppCompatActivity {
         Call<LoginResponse> call = apiService.login(login);
         call.enqueue(new Callback<LoginResponse>() {
             @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if (response.isSuccessful()) {
-                    String accessToken = response.body().getAccessToken();
-                    Toast.makeText(getApplicationContext(), "Success! ", Toast.LENGTH_LONG).show();
-                    TOKEN = accessToken;
-                } else {
-                    Toast.makeText(getApplicationContext(), "Error Occured " + response.code(), Toast.LENGTH_LONG).show();
-                    Log.d("harsimarSingh", "Error " + response.code() + " Error body " + response.errorBody());
-                }
-                progressDialog.cancel();
-                checkToken();
+            public void onResponse(Call<LoginResponse>call, Response<LoginResponse> response) {
+               if(response.isSuccessful()) {
+                   String accessToken = response.body().getAccessToken();
+                   Toast.makeText(getApplicationContext(), "Success! " , Toast.LENGTH_LONG).show();
+                   TOKEN = accessToken;
+               }
+               else{
+                   Toast.makeText(getApplicationContext(), "Error Occured "+response.code(), Toast.LENGTH_LONG).show();
+                   Log.d("harsimarSingh","Error "+response.code() + " Error body "+response.errorBody());
+               }
+               progressDialog.cancel();
+               sharedPreferencesUtil.putString(ConstantStrings.TOKEN,TOKEN);
+               if(TOKEN!=null)
+                   redirectToMain();
+
             }
 
             @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Error contacting API.", Toast.LENGTH_LONG).show();
-                Log.d("harsimarSingh", "Failure " + t.toString());
-                TOKEN = null;
-                checkToken();
+            public void onFailure(Call<LoginResponse>call, Throwable t) {
+                Toast.makeText(getApplicationContext(),"Error contacting API." ,Toast.LENGTH_LONG).show();
+                Log.d("harsimarSingh","Failure "+t.toString());
+                TOKEN =null;
                 progressDialog.cancel();
             }
         });
