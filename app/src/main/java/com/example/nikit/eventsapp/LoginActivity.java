@@ -17,14 +17,20 @@ import com.example.nikit.eventsapp.rest.ApiInterface;
 import com.example.nikit.eventsapp.utils.ConstantStrings;
 import com.example.nikit.eventsapp.utils.SharedPreferencesUtil;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     ApiInterface apiService;
-    EditText usernameET,passwordET;
-    Button loginBtn;
+    @BindView(R.id.username_et)
+    protected EditText usernameET;
+    @BindView(R.id.password_et)
+    protected EditText passwordET;
+    @BindView(R.id.login_btn)
+    protected Button loginBtn;
     ProgressDialog progressDialog;
     public static String TOKEN=null;
     private SharedPreferencesUtil sharedPreferencesUtil;
@@ -39,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
             redirectToMain();
 
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
         apiService = ApiClient.getClient().create(ApiInterface.class);
         usernameET= findViewById(R.id.username_et);
         passwordET=findViewById(R.id.password_et);
@@ -50,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //sendPost(ei.getText().toString(),e2.getText().toString());
-                sendPost("hey@hey.hey","heyheyhey");
+                sendPost("hey@hey.hey", "heyheyhey");
                 progressDialog.show();
 
             }
@@ -62,8 +69,9 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(i);
             this.finish();
     }
+
     public void sendPost(String title, String body) {
-        Login login=new Login(title.trim(),body.trim()) ;
+        Login login = new Login(title.trim(), body.trim());
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<LoginResponse> call = apiService.login(login);
         call.enqueue(new Callback<LoginResponse>() {

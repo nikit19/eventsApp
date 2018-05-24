@@ -21,6 +21,8 @@ import com.example.nikit.eventsapp.model.Attributes;
 import com.example.nikit.eventsapp.model.Event;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,34 +31,43 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class EventsRecyclerAdapter extends RecyclerView.Adapter<EventsRecyclerAdapter.EventViewHolder> {
     private Context context;
 
     public static class EventViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.all_events_card)
         CardView cv;
+        @BindView(R.id.all_events_card_image)
         ImageView eventImage;
-        TextView eventNameTv,desciption,startsAtDay,startsAtYear,startsAtMonth;
+        @BindView(R.id.all_events_card_event_name)
+        TextView eventNameTv;
+        @BindView(R.id.description)
+        TextView desciption;
+        @BindView(R.id.date)
+        TextView startsAtDay;
+        @BindView(R.id.year)
+        TextView startsAtYear;
+        @BindView(R.id.month)
+        TextView startsAtMonth;
 
         EventViewHolder(View itemView) {
             super(itemView);
-            cv = (CardView)itemView.findViewById(R.id.all_events_card);
-            eventNameTv = (TextView)itemView.findViewById(R.id.all_events_card_event_name);
-            startsAtDay = (TextView)itemView.findViewById(R.id.date);
-            startsAtYear = (TextView)itemView.findViewById(R.id.year);
-            startsAtMonth = (TextView)itemView.findViewById(R.id.month);
-            eventImage = (ImageView)itemView.findViewById(R.id.all_events_card_image);
-            desciption = (TextView)itemView.findViewById(R.id.description);
+            ButterKnife.bind(this, itemView);
+
         }
     }
 
     List<Event> events;
 
-    EventsRecyclerAdapter (Context context){
+    EventsRecyclerAdapter(Context context) {
         this.context = context;
         events = new ArrayList<>();
     }
 
-    public void addAll(List<Event> eventList){
+    public void addAll(List<Event> eventList) {
         this.events.addAll(eventList);
     }
 
@@ -80,16 +91,13 @@ public class EventsRecyclerAdapter extends RecyclerView.Adapter<EventsRecyclerAd
         holder.startsAtMonth.setText(splitDay[1].toUpperCase());
         holder.startsAtYear.setText(splitDay[2]);
 
-
         //Picasso
-        if(attributes.getOriginalImageUrl() != null) {
+        if (attributes.getOriginalImageUrl() != null) {
             Picasso.with(holder.eventImage.getContext())
                     .load(Uri.parse(attributes.getOriginalImageUrl()))
                     .placeholder(R.drawable.ic_launcher_background)
                     .into(holder.eventImage);
         }
-
-
     }
 
     @Override
@@ -97,9 +105,9 @@ public class EventsRecyclerAdapter extends RecyclerView.Adapter<EventsRecyclerAd
         super.onAttachedToRecyclerView(recyclerView);
     }
 
-    public String dateFormat(Attributes attributes){
+    public String dateFormat(Attributes attributes) {
         String returnString = "";
-        String string = attributes.getStartsAt().substring(0,9);
+        String string = attributes.getStartsAt().substring(0, 9);
         DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
         Date date = null;
         try {
