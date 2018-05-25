@@ -3,6 +3,7 @@
     android:layout_height="match_parent"
     android:background="@color/grey"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <FrameLayout
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
@@ -21,6 +22,4 @@
         android:foreground="?attr/selectableItemBackground"
         app:itemTextColor="@color/colorPrimaryDark"
         app:menu="@menu/navigation" />
-
-
 </android.support.design.widget.CoordinatorLayout>
