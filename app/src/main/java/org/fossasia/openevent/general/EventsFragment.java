@@ -70,7 +70,7 @@ public class EventsFragment extends Fragment {
 
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<EventList> call = apiService.getEvents2(app, TOKEN);
+        Call<EventList> call = apiService.getEvents(app);
         call.enqueue(new Callback<EventList>() {
             @Override
             public void onResponse(Call<EventList> call, Response<EventList> response) {
