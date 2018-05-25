@@ -1,4 +1,4 @@
-package com.example.nikit.eventsapp.utils;
+package org.fossasia.openevent.general.utils;
 
 import android.support.v4.util.SparseArrayCompat;
 

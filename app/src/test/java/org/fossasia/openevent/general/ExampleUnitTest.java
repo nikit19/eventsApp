@@ -1,4 +1,4 @@
-package com.example.nikit.eventsapp;
+package org.fossasia.openevent.general;
 
 import org.junit.Test;
 

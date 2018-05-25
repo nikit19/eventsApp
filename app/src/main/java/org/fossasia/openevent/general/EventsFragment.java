@@ -1,4 +1,4 @@
-package com.example.nikit.eventsapp;
+package org.fossasia.openevent.general;
 
 
 import android.os.Bundle;
@@ -12,10 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.example.nikit.eventsapp.model.Event;
-import com.example.nikit.eventsapp.model.EventList;
-import com.example.nikit.eventsapp.rest.ApiClient;
-import com.example.nikit.eventsapp.rest.ApiInterface;
+import org.fossasia.openevent.general.model.Event;
+import org.fossasia.openevent.general.model.EventList;
+import org.fossasia.openevent.general.rest.ApiClient;
+import org.fossasia.openevent.general.rest.ApiInterface;
+import org.fossasia.openevent.general.utils.ConstantStrings;
+import org.fossasia.openevent.general.utils.SharedPreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,7 @@ public class EventsFragment extends Fragment {
     private ProgressBar progressBar;
     private LinearLayoutManager linearLayoutManager;
     private String TOKEN = null;
+    SharedPreferencesUtil sharedPreferencesUtil ;
 
     public EventsFragment() {
     }
@@ -42,9 +45,9 @@ public class EventsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            TOKEN = getArguments().getString("TOKEN");
-        }
+        sharedPreferencesUtil = new SharedPreferencesUtil(getActivity());
+        TOKEN = sharedPreferencesUtil.getString(ConstantStrings.TOKEN,null);
+        TOKEN = "JWT "+TOKEN;
     }
 
     @Override
@@ -67,7 +70,7 @@ public class EventsFragment extends Fragment {
 
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<EventList> call = apiService.getEvents2(app, TOKEN);
+        Call<EventList> call = apiService.getEvents(app);
         call.enqueue(new Callback<EventList>() {
             @Override
             public void onResponse(Call<EventList> call, Response<EventList> response) {

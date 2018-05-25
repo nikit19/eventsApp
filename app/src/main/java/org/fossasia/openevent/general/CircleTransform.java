@@ -1,4 +1,4 @@
-package com.example.nikit.eventsapp;
+package org.fossasia.openevent.general;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;

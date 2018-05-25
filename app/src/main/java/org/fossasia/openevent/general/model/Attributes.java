@@ -1,10 +1,15 @@
-package com.example.nikit.eventsapp.model;
+package org.fossasia.openevent.general.model;
 
 import com.google.gson.annotations.SerializedName;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * Created by harsimar on 20/05/18.
  */
+@Data
+@EqualsAndHashCode(callSuper = false)
 
 public class Attributes {
     @SerializedName("identifier")
@@ -20,25 +25,4 @@ public class Attributes {
     @SerializedName("description")
     private String desciption;
 
-    public String getDesciption() {
-        return desciption;
-    }
-
-    public String getStartsAt() {
-        return startsAt;
-    }
-
-    public String getIdentifier() {
-        return identifier;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getOrganizerDescription() {
-        return organizerDescription;
-    }
-
-    public String getOriginalImageUrl() {return originalImageUrl; }
 }
