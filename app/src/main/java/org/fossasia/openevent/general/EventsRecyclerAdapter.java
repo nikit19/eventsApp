@@ -41,7 +41,7 @@ public class EventsRecyclerAdapter extends RecyclerView.Adapter<EventsRecyclerAd
         @BindView(R.id.all_events_card_event_name)
         TextView eventNameTv;
         @BindView(R.id.description)
-        TextView desciption;
+        TextView description;
         @BindView(R.id.date)
         TextView startsAtDay;
         @BindView(R.id.year)
@@ -80,7 +80,7 @@ public class EventsRecyclerAdapter extends RecyclerView.Adapter<EventsRecyclerAd
 
         Attributes attributes = events.get(position).getAttributes();
         holder.eventNameTv.setText(attributes.getName());
-        holder.desciption.setText(attributes.getDesciption());
+        holder.description.setText(attributes.getDesciption());
 
         String[] splitDay = dateFormat(attributes).split(" ");
         holder.startsAtDay.setText(splitDay[0]);

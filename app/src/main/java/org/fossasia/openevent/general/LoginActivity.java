@@ -56,8 +56,8 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //sendPost(ei.getText().toString(),e2.getText().toString());
-                sendPost("hey@hey.hey", "heyheyhey");
+                //loginUser(ei.getText().toString(),e2.getText().toString());
+                loginUser("hey@hey.hey", "heyheyhey");
                 progressDialog.show();
 
             }
@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
             this.finish();
     }
 
-    public void sendPost(String title, String body) {
+    public void loginUser(String title, String body) {
         Login login = new Login(title.trim(), body.trim());
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<LoginResponse> call = apiService.login(login);

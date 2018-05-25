@@ -43,8 +43,6 @@ public class ProfileFragment extends Fragment {
     private ProgressBar progressBar;
     private SharedPreferencesUtil sharedPreferencesUtil;
 
-
-
     public ProfileFragment(){
 
     }

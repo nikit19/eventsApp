@@ -26,8 +26,7 @@ public interface ApiInterface {
 //    Call<List<Event>> getEvents();
 
     @GET("/v1/events")
-    Call<EventList> getEvents2(@Header("Accept") String app,
-                               @Header("Authorization") String auth);
+    Call<EventList> getEvents(@Header("Accept") String app);
     @GET("/v1/users/{id}")
     Call<User> getProfile(@Header("Accept") String app,
                           @Header("Authorization") String auth , @Path("id") long id);
