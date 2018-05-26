@@ -34,6 +34,9 @@ dependencies {
     //recycler view animations
     compile 'jp.wasabeef:recyclerview-animators:2.3.0'
 
+    //Timber
+    implementation 'com.jakewharton.timber:timber:4.7.0'
+
     // retrofit, gson
     compile 'com.google.code.gson:gson:2.8.2'
     compile 'com.squareup.retrofit2:retrofit:2.4.0'
