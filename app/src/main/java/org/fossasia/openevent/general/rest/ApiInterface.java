@@ -22,14 +22,10 @@ public interface ApiInterface {
     @POST("auth/session")
     Observable<Response<LoginResponse>> login(@Body Login login);
 
-//    @Headers({"Accept: application/vnd.api+json","Authorization: JWT "+ })
-//    @GET("/v1/events")
-//    Call<List<Event>> getEvents();
-
     @GET("/v1/events")
     Call<EventList> getEvents(@Header("Accept") String app);
+
     @GET("/v1/users/{id}")
-    Call<User> getProfile(@Header("Accept") String app,
-                          @Header("Authorization") String auth , @Path("id") long id);
+    Call<User> getProfile(@Path("id") long id);
 
 }
