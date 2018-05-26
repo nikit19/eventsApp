@@ -16,7 +16,6 @@ import android.widget.TextView;
 import org.fossasia.openevent.general.model.AttributesUser;
 import org.fossasia.openevent.general.model.User;
 import org.fossasia.openevent.general.rest.ApiClient;
-import org.fossasia.openevent.general.rest.ApiInterface;
 import org.fossasia.openevent.general.utils.ConstantStrings;
 import org.fossasia.openevent.general.utils.JWTUtils;
 import org.fossasia.openevent.general.utils.SharedPreferencesUtil;
@@ -24,9 +23,9 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 
@@ -42,6 +41,7 @@ public class ProfileFragment extends Fragment {
     private CardView logout;
     private ProgressBar progressBar;
     private SharedPreferencesUtil sharedPreferencesUtil;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public ProfileFragment(){
 
@@ -62,8 +62,6 @@ public class ProfileFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
     }
 
     private void redirectToLogin() {
@@ -84,7 +82,6 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 sharedPreferencesUtil.remove(ConstantStrings.TOKEN);
                 redirectToLogin();
-
             }
         });
         avatarImageView = view.findViewById(R.id.avatar_image_view);
@@ -93,37 +90,37 @@ public class ProfileFragment extends Fragment {
 
         progressBar.setIndeterminate(true);
 
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<User> call = apiService.getProfile(app,TOKEN,userId);
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if(response.isSuccessful()){
+        compositeDisposable.add(ApiClient.getOpenEventAPI().getProfile(app,TOKEN,userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    if(response.isSuccessful()){
 
-                    progressBar.setIndeterminate(false);
-                    progressBar.setVisibility(View.GONE);
-                    Timber.d("Response Success");
-                    AttributesUser userAttrib = response.body().getUser().getAttributes();
-                    firstNameTv.setText(userAttrib.getFirstName());
-                    emailTv.setText(userAttrib.getEmail());
+                        progressBar.setIndeterminate(false);
+                        progressBar.setVisibility(View.GONE);
+                        Timber.d("Response Success");
+                        AttributesUser userAttrib = response.body().getUser().getAttributes();
+                        firstNameTv.setText(userAttrib.getFirstName());
+                        emailTv.setText(userAttrib.getEmail());
 
-                    Picasso.with(view.getContext())
-                            .load(userAttrib.getAvatarUrl())
-                            .placeholder(R.drawable.ic_person_black_24dp)
-                            .transform(new CircleTransform())
-                            .into(avatarImageView);
-                } else {
-                    Timber.d("Not Successfull, Error code : "+response.code());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Timber.e("Failure"+"\n"+t.toString());
-            }
-        });
-
+                        Picasso.with(view.getContext())
+                                .load(userAttrib.getAvatarUrl())
+                                .placeholder(R.drawable.ic_person_black_24dp)
+                                .transform(new CircleTransform())
+                                .into(avatarImageView);
+                    } else {
+                        Timber.d("Not Successfull, Error code : "+response.code());
+                    }
+                }, throwable -> {
+                    Timber.e("Failure" + "\n" + throwable.toString());
+                }));
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.dispose();
     }
 
 }

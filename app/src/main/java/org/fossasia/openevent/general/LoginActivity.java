@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
 
         loginBtn.setOnClickListener(v -> {
             //loginUser(ei.getText().toString(),e2.getText().toString());
-            loginUser("hey@hey.hey", "heyhjeyhey");
+            loginUser("hey@hey.hey", "heyheyhey");
             progressDialog.show();
         });
     }

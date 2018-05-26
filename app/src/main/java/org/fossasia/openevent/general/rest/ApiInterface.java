@@ -29,7 +29,7 @@ public interface ApiInterface {
     @GET("/v1/events")
     Call<EventList> getEvents(@Header("Accept") String app);
     @GET("/v1/users/{id}")
-    Call<User> getProfile(@Header("Accept") String app,
+    Observable<Response<User>> getProfile(@Header("Accept") String app,
                           @Header("Authorization") String auth , @Path("id") long id);
 
 }
