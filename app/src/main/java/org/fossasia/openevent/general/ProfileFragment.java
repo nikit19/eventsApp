@@ -13,15 +13,14 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.fossasia.openevent.general.model.AttributesUser;
+import com.squareup.picasso.Picasso;
+
 import org.fossasia.openevent.general.model.User;
 import org.fossasia.openevent.general.rest.ApiClient;
 import org.fossasia.openevent.general.rest.ApiInterface;
 import org.fossasia.openevent.general.utils.ConstantStrings;
 import org.fossasia.openevent.general.utils.JWTUtils;
 import org.fossasia.openevent.general.utils.SharedPreferencesUtil;
-import com.squareup.picasso.Picasso;
-
 import org.json.JSONException;
 
 import retrofit2.Call;
@@ -33,7 +32,6 @@ import timber.log.Timber;
 public class ProfileFragment extends Fragment {
 
     private static final String app="application/vnd.api+json";
-    private User user;
     private String TOKEN = null;
     private long userId=-1;
     private TextView firstNameTv;
@@ -93,8 +91,8 @@ public class ProfileFragment extends Fragment {
 
         progressBar.setIndeterminate(true);
 
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<User> call = apiService.getProfile(app,TOKEN,userId);
+        ApiInterface apiService = ApiClient.getClient2(TOKEN).create(ApiInterface.class);
+        Call<User> call = apiService.getProfile(userId);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -103,12 +101,12 @@ public class ProfileFragment extends Fragment {
                     progressBar.setIndeterminate(false);
                     progressBar.setVisibility(View.GONE);
                     Timber.d("Response Success");
-                    AttributesUser userAttrib = response.body().getUser().getAttributes();
-                    firstNameTv.setText(userAttrib.getFirstName());
-                    emailTv.setText(userAttrib.getEmail());
+                    User user = response.body();
+                    firstNameTv.setText(user.getFirstName());
+                    emailTv.setText(user.getEmail());
 
                     Picasso.with(view.getContext())
-                            .load(userAttrib.getAvatarUrl())
+                            .load(user.getAvatarUrl())
                             .placeholder(R.drawable.ic_person_black_24dp)
                             .transform(new CircleTransform())
                             .into(avatarImageView);

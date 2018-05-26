@@ -36,7 +36,11 @@ dependencies {
     compile 'jp.wasabeef:recyclerview-animators:2.3.0'
 
     //Timber
-    implementation 'com.jakewharton.timber:timber:4.7.0'
+    implementation 'com.jakewharton.timber:timber:4.7.0' +
+            ''
+    implementation 'com.github.jasminb:jsonapi-converter:0.7'
+    implementation 'com.squareup.retrofit2:converter-jackson:2.3.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
 
     // retrofit, gson
     compile 'com.google.code.gson:gson:2.8.2'
