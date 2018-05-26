@@ -11,8 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.nikit.eventsapp.EventsFragment;
-import com.example.nikit.eventsapp.ProfileFragment;
+import org.fossasia.openevent.general.utils.ConstantStrings;
+import org.fossasia.openevent.general.utils.SharedPreferencesUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
