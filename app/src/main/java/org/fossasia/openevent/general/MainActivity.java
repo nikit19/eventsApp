@@ -1,6 +1,5 @@
 package org.fossasia.openevent.general;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,8 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import org.fossasia.openevent.general.utils.ConstantStrings;
-import org.fossasia.openevent.general.utils.SharedPreferencesUtil;
+import com.example.nikit.eventsapp.EventsFragment;
+import com.example.nikit.eventsapp.ProfileFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
                         finish();
                     }
                     return true;
-
             }
             return false;
         }
@@ -67,10 +65,9 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Events");
         sharedPreferencesUtil = new SharedPreferencesUtil(this);
         TOKEN = sharedPreferencesUtil.getString(ConstantStrings.TOKEN, null);
+
         EventsFragment eventsFragment = new EventsFragment();
         loadFragment(eventsFragment);
-
-
     }
 
     private void loadFragment(Fragment fragment) {
@@ -79,5 +76,4 @@ public class MainActivity extends AppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
     }
-
 }

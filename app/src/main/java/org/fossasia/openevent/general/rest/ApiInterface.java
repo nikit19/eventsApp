@@ -5,7 +5,9 @@ import org.fossasia.openevent.general.model.Login;
 import org.fossasia.openevent.general.model.LoginResponse;
 import org.fossasia.openevent.general.model.User;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -16,10 +18,9 @@ import retrofit2.http.Path;
 
 public interface ApiInterface {
 
-
     @Headers("Content-Type: application/json")
     @POST("auth/session")
-    Call<LoginResponse> login(@Body Login login);
+    Observable<Response<LoginResponse>> login(@Body Login login);
 
 //    @Headers({"Accept: application/vnd.api+json","Authorization: JWT "+ })
 //    @GET("/v1/events")
@@ -30,6 +31,5 @@ public interface ApiInterface {
     @GET("/v1/users/{id}")
     Call<User> getProfile(@Header("Accept") String app,
                           @Header("Authorization") String auth , @Path("id") long id);
-
 
 }
