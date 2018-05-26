@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +27,7 @@ import org.json.JSONException;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 
 public class ProfileFragment extends Fragment {
@@ -58,8 +58,7 @@ public class ProfileFragment extends Fragment {
         TOKEN = "JWT "+TOKEN;
         try {
             userId = JWTUtils.getIdentity(TOKEN);
-            Log.d("harsimarSingh", "User id is "+ userId);
-
+            Timber.d("User id is %s", userId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -103,7 +102,7 @@ public class ProfileFragment extends Fragment {
 
                     progressBar.setIndeterminate(false);
                     progressBar.setVisibility(View.GONE);
-                    Log.d("harsimarSingh","Response Success ");
+                    Timber.d("Response Success");
                     AttributesUser userAttrib = response.body().getUser().getAttributes();
                     firstNameTv.setText(userAttrib.getFirstName());
                     emailTv.setText(userAttrib.getEmail());
@@ -113,14 +112,14 @@ public class ProfileFragment extends Fragment {
                             .placeholder(R.drawable.ic_person_black_24dp)
                             .transform(new CircleTransform())
                             .into(avatarImageView);
-                }else {
-                    Log.d("harsimarSingh","Not Successful "+response.code());
+                } else {
+                    Timber.d("Not Successfull, Error code : "+response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Log.d("harsimarSingh","Failure "+t.toString());
+                Timber.e("Failure"+"\n"+t.toString());
             }
         });
 

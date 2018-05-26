@@ -4,16 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatButton;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import org.fossasia.openevent.general.model.Login;
-import org.fossasia.openevent.general.model.LoginResponse;
 import org.fossasia.openevent.general.rest.ApiClient;
-import org.fossasia.openevent.general.rest.ApiInterface;
 import org.fossasia.openevent.general.utils.ConstantStrings;
 import org.fossasia.openevent.general.utils.SharedPreferencesUtil;
 
@@ -22,6 +18,7 @@ import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.username_et)
@@ -39,9 +36,12 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Timber Initialization
+        Timber.plant(new Timber.DebugTree());
+
         sharedPreferencesUtil = new SharedPreferencesUtil(getApplicationContext());
         String token = sharedPreferencesUtil.getString(ConstantStrings.TOKEN,null);
-        Log.d("harsimarSingh","Token is "+token);
+        Timber.d("Token is "+token);
         if(token != null)
             redirectToMain();
 
@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
 
         loginBtn.setOnClickListener(v -> {
             //loginUser(ei.getText().toString(),e2.getText().toString());
-            loginUser("hey@hey.hey", "heyheyhey");
+            loginUser("hey@hey.hey", "heyhjeyhey");
             progressDialog.show();
         });
     }
@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                         TOKEN = accessToken;
                     } else {
                         Toast.makeText(getApplicationContext(), "Error Occured "+response.code(), Toast.LENGTH_LONG).show();
-                        Log.d("harsimarSingh","Error "+response.code() + " Error body "+response.errorBody());
+                        Timber.d("Error "+response.code()+"\n"+"Error body "+response.errorBody());
                     }
                     progressDialog.cancel();
                     sharedPreferencesUtil.putString(ConstantStrings.TOKEN,TOKEN);
@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                     TOKEN = null;
                     progressDialog.cancel();
                     Toast.makeText(getApplicationContext(), "Unable to Login !" , Toast.LENGTH_LONG).show();
-                    Log.d("Failure:",throwable.toString());
+                    Timber.e("Failure"+"\n"+throwable.toString());
                 }));
     }
 

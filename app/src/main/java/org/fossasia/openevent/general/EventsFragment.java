@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +25,7 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 
 public class EventsFragment extends Fragment {
@@ -75,7 +75,7 @@ public class EventsFragment extends Fragment {
             @Override
             public void onResponse(Call<EventList> call, Response<EventList> response) {
                 if (response.isSuccessful()) {
-                    Log.d("harsimarSingh", "Response Success ");
+                    Timber.d("Response Success");
                     eventList.addAll(response.body().getEventList());
                     eventsRecyclerAdapter.addAll(eventList);
 
@@ -83,15 +83,15 @@ public class EventsFragment extends Fragment {
                     addAnim();
                     notifyItems();
 
-                    Log.d("harsimarSingh", "Fetched Events " + eventList.size());
+                    Timber.d("Fetched events of size %s",eventList.size());
                 } else {
-                    Log.d("harsimarSingh", "Not Successful " + response.code());
+                    Timber.d("Not successfull with response code %s",response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<EventList> call, Throwable t) {
-                Log.d("harsimarSingh", "Failure " + t.toString());
+                Timber.e("Failure"+"\n"+t.toString());
             }
         });
         return view;
