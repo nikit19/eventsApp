@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
     public void loginUser(String title, String body) {
 
         Login login=new Login(title.trim(),body.trim()) ;
-        compositeDisposable.add(ApiClient.getOpenEventAPI().login(login)
+        compositeDisposable.add(ApiClient.getClient2(TOKEN).login(login)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
