@@ -91,7 +91,7 @@ public class ProfileFragment extends Fragment {
 
         progressBar.setIndeterminate(true);
 
-        ApiInterface apiService = ApiClient.getClient2(TOKEN).create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient2(TOKEN);
         Call<User> call = apiService.getProfile(userId);
         call.enqueue(new Callback<User>() {
             @Override

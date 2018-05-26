@@ -31,7 +31,6 @@ public class ApiClient {
     public static final String BASE_URL = "https://open-event-api-dev.herokuapp.com/";
 
     private static Retrofit retrofit = null;
-    private static Retrofit retrofit2 = null;
     private static ApiInterface apiInterface;
     private static OkHttpClient.Builder okHttpClientBuilder;
     private static Authenticator authenticator;
@@ -53,17 +52,7 @@ public class ApiClient {
         return retrofit;
     }
 
-    public static ApiInterface getOpenEventAPI() {
-            apiInterface = new Retrofit.Builder()
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl(BASE_URL)
-                    .build()
-                    .create(ApiInterface.class);
-        return apiInterface;
-    }
-
-    public static Retrofit getClient2(String TOKEN) {
+    public static ApiInterface getClient2(String TOKEN) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
@@ -72,15 +61,16 @@ public class ApiClient {
                 .authenticator(getAuthenticator(TOKEN))
                 .build();
 
-        retrofit = new Retrofit.Builder()
+        apiInterface = new Retrofit.Builder()
                 .client(okHttpClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(new JSONAPIConverterFactory(objectMapper, User.class))
                 .addConverterFactory(JacksonConverterFactory.create(objectMapper))
                 .baseUrl(BASE_URL)
-                .build();
+                .build()
+                .create(ApiInterface.class);
 
-        return retrofit;
+        return apiInterface;
 
     }
     public static Authenticator getAuthenticator(String TOKEN) {
