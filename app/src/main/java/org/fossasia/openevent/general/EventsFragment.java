@@ -1,6 +1,5 @@
 package org.fossasia.openevent.general;
 
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-
 
 import org.fossasia.openevent.general.model.Event;
 import org.fossasia.openevent.general.rest.ApiClient;
