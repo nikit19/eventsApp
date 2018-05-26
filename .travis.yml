@@ -21,4 +21,4 @@ cache:
     - $HOME/.gradle/wrapper/
     - $HOME/.android/build-cache
 install:
-  yes | sudo sdkmanager --licenses
+  - yes | sudo sdkmanager --licenses
