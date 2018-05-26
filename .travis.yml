@@ -22,4 +22,4 @@ cache:
     - $HOME/.gradle/wrapper/
     - $HOME/.android/build-cache
 install:
-  - echo yes | ${ANDROID_HOME}/tools/bin/sdkmanager "platforms;android-26.0.2"
+  - echo yes | ${ANDROID_HOME}/tools/bin/sdkmanager "platforms;android-27"
