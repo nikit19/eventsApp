@@ -32,6 +32,8 @@ public class EventsFragment extends Fragment {
     private EventsRecyclerAdapter eventsRecyclerAdapter;
     private ProgressBar progressBar;
     private LinearLayoutManager linearLayoutManager;
+
+    private static String TOKEN = null;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     SharedPreferencesUtil sharedPreferencesUtil ;
 
