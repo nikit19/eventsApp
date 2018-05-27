@@ -38,7 +38,6 @@ public class ProfileFragment extends Fragment {
     private ImageView avatarImageView;
     private CardView logout;
     private ProgressBar progressBar;
-    private SharedPreferencesUtil sharedPreferencesUtil;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public ProfileFragment(){
@@ -47,8 +46,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPreferencesUtil = new SharedPreferencesUtil(getActivity());
-        TOKEN = sharedPreferencesUtil.getString(ConstantStrings.TOKEN,null);
+        TOKEN = SharedPreferencesUtil.getString(ConstantStrings.TOKEN,null);
         if(TOKEN == null)
             redirectToLogin();
         TOKEN = "JWT "+TOKEN;
@@ -80,7 +78,7 @@ public class ProfileFragment extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sharedPreferencesUtil.remove(ConstantStrings.TOKEN);
+                SharedPreferencesUtil.remove(ConstantStrings.TOKEN);
                 redirectToMain();
             }
         });

@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -34,7 +35,6 @@ public class EventsFragment extends Fragment {
     private LinearLayoutManager linearLayoutManager;
     private static String TOKEN = null;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
-    SharedPreferencesUtil sharedPreferencesUtil ;
 
     public EventsFragment() {
     }
@@ -42,8 +42,7 @@ public class EventsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPreferencesUtil = new SharedPreferencesUtil(getActivity());
-        TOKEN = sharedPreferencesUtil.getString(ConstantStrings.TOKEN,null);
+        TOKEN = SharedPreferencesUtil.getString(ConstantStrings.TOKEN,null);
         TOKEN = "JWT "+TOKEN;
     }
 

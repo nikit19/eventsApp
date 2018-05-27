@@ -30,17 +30,13 @@ public class LoginActivity extends AppCompatActivity {
 
     ProgressDialog progressDialog;
     public static String TOKEN=null;
-    private SharedPreferencesUtil sharedPreferencesUtil;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Timber Initialization
-        Timber.plant(new Timber.DebugTree());
 
-        sharedPreferencesUtil = new SharedPreferencesUtil(getApplicationContext());
-        String token = sharedPreferencesUtil.getString(ConstantStrings.TOKEN,null);
+        String token = SharedPreferencesUtil.getString(ConstantStrings.TOKEN,null);
         Timber.d("Token is "+token);
         if(token != null)
             redirectToMain();
@@ -85,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                         Timber.d("Error "+response.code()+"\n"+"Error body "+response.errorBody());
                     }
                     progressDialog.cancel();
-                    sharedPreferencesUtil.putString(ConstantStrings.TOKEN,TOKEN);
+                    SharedPreferencesUtil.putString(ConstantStrings.TOKEN,TOKEN);
                     if(TOKEN!=null)
                         redirectToMain();
                 }, throwable -> {
