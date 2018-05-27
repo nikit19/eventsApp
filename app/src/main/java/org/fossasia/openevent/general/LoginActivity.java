@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     protected Button loginBtn;
 
     ProgressDialog progressDialog;
-    public static String TOKEN=null;
+    public static String TOKEN = null;
     private SharedPreferencesUtil sharedPreferencesUtil;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
     public void loginUser(String title, String body) {
 
         Login login=new Login(title.trim(),body.trim()) ;
-        compositeDisposable.add(ApiClient.getClient2(TOKEN).login(login)
+        compositeDisposable.add(ApiClient.getClient2().login(login)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
