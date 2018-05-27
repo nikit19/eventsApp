@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,7 @@ public class ProfileFragment extends Fragment {
 
     private static final String app="application/vnd.api+json";
     private User user;
-    private static String TOKEN = null;
+    private String TOKEN = null;
     private long userId=-1;
     private TextView firstNameTv;
     private TextView emailTv;
@@ -52,6 +53,7 @@ public class ProfileFragment extends Fragment {
         if(TOKEN == null)
             redirectToLogin();
         TOKEN = "JWT "+TOKEN;
+        LoginActivity.TOKEN = TOKEN;
         try {
             userId = JWTUtils.getIdentity(TOKEN);
             Timber.d("User id is %s", userId);
@@ -85,7 +87,7 @@ public class ProfileFragment extends Fragment {
 
         progressBar.setIndeterminate(true);
 
-        compositeDisposable.add(ApiClient.getClient2(TOKEN).getProfile(userId)
+        compositeDisposable.add(ApiClient.getClient2().getProfile(userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
