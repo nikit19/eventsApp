@@ -1,6 +1,9 @@
 #!/bin/sh
 set -e
 
+git config --global user.name "Travis CI"
+git config --global user.email "noreply+travis@fossasia.org"
+
 git clone --quiet --branch=apk https://nikit19:$GITHUB_API_KEY@github.com/nikit19/open-event-general apk > /dev/null
 cd apk
 \cp -r ../app/build/outputs/apk/*/**.apk .
