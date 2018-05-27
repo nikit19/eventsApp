@@ -102,7 +102,7 @@ public class ProfileFragment extends Fragment {
 
                         Picasso.with(view.getContext())
                                 .load(userAttrib.getAvatarUrl())
-                                .placeholder(R.drawable.ic_person_black_24dp)
+                                .placeholder(R.drawable.ic_account_circle_black_24dp)
                                 .transform(new CircleTransform())
                                 .into(avatarImageView);
                     } else {
