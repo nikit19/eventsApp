@@ -1,31 +1,28 @@
-  # Create a new directory that will contain out generated apk
-  mkdir $HOME/buildApk/
+#!/bin/sh
+set -e
 
-  # Copy generated apk from build folder and README.md to the folder just created
-  cp -R app/build/outputs/apk/app-debug.apk $HOME/buildApk/
-  cp -R README.md $HOME/buildApk/
+git clone --quiet --branch=apk https://nikit19:$GITHUB_API_KEY@github.com/nikit19/open-event-general apk > /dev/null
+cd apk
+\cp -r ../app/build/outputs/apk/*/**.apk .
+\cp -r ../app/build/outputs/apk/debug/output.json debug-output.json
+\cp -r ../app/build/outputs/apk/release/output.json release-output.json
 
-  # Setup git
-  cd $HOME
-  git config --global user.email "noreply@travis.com"
-  git config --global user.name "Travis CI"
 
-  # Clone the repository in the buildApk folder
-  git clone --quiet --branch=apk https://nikit19:$GITHUB_API_KEY@github.com/nikit19/open-event-general apk > /dev/null
-  cp -Rf $HOME/buildApk/*
-  cd apk
+for file in app*; do
+  mv $file test-${file%%}
+done
 
-  git checkout --orphan workaround
-  git add -A
+# Create a new branch that will contains only latest apk
+git checkout --orphan temporary
 
-  # Commit and skip the tests for that commit
-  git commit -am "Travis build pushed [skip ci]"
+# Add generated APK
+git add --all .
+git commit -am "[Auto] Update Test Apk ($(date +%Y-%m-%d.%H:%M:%S))"
 
-  git branch -D apk
-  git branch -m apk
+# Delete current apk branch
+git branch -D apk
+# Rename current branch to apk
+git branch -m apk
 
-  # Push to the apk branch
-  git push origin apk --force --quiet> /dev/null
-fi
-
-exit 0
+# Force push to origin since histories are unrelated
+git push origin apk --force --quiet > /dev/null
