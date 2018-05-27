@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 27
@@ -32,38 +33,40 @@ dependencies {
     implementation 'com.android.support:design:27.1.+'
     compileOnly 'org.projectlombok:lombok:1.16.18'
     annotationProcessor 'org.projectlombok:lombok:1.16.18'
-    //recycler view animations
+    //Recycler view animations
     compile 'jp.wasabeef:recyclerview-animators:2.3.0'
-
     //Timber
-    implementation 'com.jakewharton.timber:timber:4.7.0' +
-            ''
+    implementation 'com.jakewharton.timber:timber:4.7.0'
     implementation 'com.github.jasminb:jsonapi-converter:0.7'
+    //Jackson, okHttp
     implementation 'com.squareup.retrofit2:converter-jackson:2.3.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
-
-    // retrofit, gson
+    //Retrofit, Gson
     compile 'com.google.code.gson:gson:2.8.2'
     compile 'com.squareup.retrofit2:retrofit:2.4.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-
-// RxJava
+    // RxJava
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
     implementation 'io.reactivex.rxjava2:rxjava:2.1.10'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-    // recycler view
+    // Recycler view
     compile 'com.android.support:recyclerview-v7:27.1.+'
-
+    // Lombok
     compileOnly('org.projectlombok:lombok:1.16.20')
     annotationProcessor 'org.projectlombok:lombok:1.16.20'
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-
-//picasso
+    //Picasso
     implementation 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    //Kotlin
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }
