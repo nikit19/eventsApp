@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:name="org.fossasia.openevent.general.LoginActivity"
             android:screenOrientation="portrait">
 

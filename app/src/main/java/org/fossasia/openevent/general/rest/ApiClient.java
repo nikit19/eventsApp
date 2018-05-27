@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jasminb.jsonapi.retrofit.JSONAPIConverterFactory;
 
 import org.fossasia.openevent.general.model.User;
+import org.fossasia.openevent.general.utils.ConstantStrings;
+import org.fossasia.openevent.general.utils.SharedPreferencesUtil;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -52,13 +54,13 @@ public class ApiClient {
         return retrofit;
     }
 
-    public static ApiInterface getClient2(String TOKEN) {
+    public static ApiInterface getClient2() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         OkHttpClient okHttpClient = okHttpClientBuilder.addInterceptor(new HttpLoggingInterceptor()
                 .setLevel(HttpLoggingInterceptor.Level.BASIC))
-                .authenticator(getAuthenticator(TOKEN))
+                .authenticator(getAuthenticator())
                 .build();
 
         apiInterface = new Retrofit.Builder()
@@ -73,7 +75,8 @@ public class ApiClient {
         return apiInterface;
 
     }
-    public static Authenticator getAuthenticator(String TOKEN) {
+    public static Authenticator getAuthenticator() {
+        String TOKEN = SharedPreferencesUtil.getString(ConstantStrings.TOKEN,null);
         if (authenticator == null) {
             authenticator = new Authenticator() {
                 @Override
