@@ -36,8 +36,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Timber Initialization
-        Timber.plant(new Timber.DebugTree());
 
         sharedPreferencesUtil = new SharedPreferencesUtil(getApplicationContext());
         String token = sharedPreferencesUtil.getString(ConstantStrings.TOKEN,null);
