@@ -32,6 +32,7 @@ public class EventsFragment extends Fragment {
     private EventsRecyclerAdapter eventsRecyclerAdapter;
     private ProgressBar progressBar;
     private LinearLayoutManager linearLayoutManager;
+    private static String TOKEN = null;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     SharedPreferencesUtil sharedPreferencesUtil ;
 
@@ -42,6 +43,8 @@ public class EventsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPreferencesUtil = new SharedPreferencesUtil(getActivity());
+        TOKEN = sharedPreferencesUtil.getString(ConstantStrings.TOKEN,null);
+        TOKEN = "JWT "+TOKEN;
     }
 
     @Override
@@ -62,7 +65,7 @@ public class EventsFragment extends Fragment {
         recyclerView.setAdapter(eventsRecyclerAdapter);
         recyclerView.setNestedScrollingEnabled(false);
 
-        compositeDisposable.add(ApiClient.getClient2().getEvents(app)
+        compositeDisposable.add(ApiClient.getClient2(TOKEN).getEvents(app)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
