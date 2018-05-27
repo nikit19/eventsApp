@@ -23,9 +23,9 @@ public interface ApiInterface {
     Observable<Response<LoginResponse>> login(@Body Login login);
 
     @GET("/v1/events")
-    Observable<Response<EventList>> getEvents(@Header("Accept") String app);
+    Call<EventList> getEvents(@Header("Accept") String app);
 
     @GET("/v1/users/{id}")
-    Observable<Response<User>> getProfile(@Path("id") long id);
+    Call<User> getProfile(@Path("id") long id);
 
 }

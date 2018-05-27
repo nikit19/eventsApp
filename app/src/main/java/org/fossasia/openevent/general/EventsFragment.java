@@ -1,5 +1,6 @@
 package org.fossasia.openevent.general;
 
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,18 +12,21 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import org.fossasia.openevent.general.model.Event;
+import org.fossasia.openevent.general.model.EventList;
 import org.fossasia.openevent.general.rest.ApiClient;
+import org.fossasia.openevent.general.rest.ApiInterface;
 import org.fossasia.openevent.general.utils.ConstantStrings;
 import org.fossasia.openevent.general.utils.SharedPreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import timber.log.Timber;
+
 
 public class EventsFragment extends Fragment {
 
@@ -32,8 +36,7 @@ public class EventsFragment extends Fragment {
     private EventsRecyclerAdapter eventsRecyclerAdapter;
     private ProgressBar progressBar;
     private LinearLayoutManager linearLayoutManager;
-    private static String TOKEN = null;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private String TOKEN = null;
     SharedPreferencesUtil sharedPreferencesUtil ;
 
     public EventsFragment() {
@@ -65,29 +68,35 @@ public class EventsFragment extends Fragment {
         recyclerView.setAdapter(eventsRecyclerAdapter);
         recyclerView.setNestedScrollingEnabled(false);
 
-        compositeDisposable.add(ApiClient.getClient2(TOKEN).getEvents(app)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> {
-                    if (response.isSuccessful()) {
-                        Timber.d("Response Success");
-                        eventList.addAll(response.body().getEventList());
-                        eventsRecyclerAdapter.addAll(eventList);
 
-                        progressBarHandle();
-                        addAnim();
-                        notifyItems();
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<EventList> call = apiService.getEvents(app);
+        call.enqueue(new Callback<EventList>() {
+            @Override
+            public void onResponse(Call<EventList> call, Response<EventList> response) {
+                if (response.isSuccessful()) {
+                    Timber.d("Response Success");
+                    eventList.addAll(response.body().getEventList());
+                    eventsRecyclerAdapter.addAll(eventList);
 
-                        Timber.d("Fetched events of size %s",eventList.size());
-                    } else {
-                        Timber.d("Not successfull with response code %s",response.code());
-                    }
-                }, throwable -> {
-                    Timber.e("Failure" + "\n" + throwable.toString());
-                }));
+                    progressBarHandle();
+                    addAnim();
+                    notifyItems();
 
+                    Timber.d("Fetched events of size %s",eventList.size());
+                } else {
+                    Timber.d("Not successfull with response code %s",response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EventList> call, Throwable t) {
+                Timber.e("Failure"+"\n"+t.toString());
+            }
+        });
         return view;
     }
+
 
     public void notifyItems() {
         int firstVisible = linearLayoutManager.findFirstVisibleItemPosition();
@@ -109,11 +118,5 @@ public class EventsFragment extends Fragment {
     public void progressBarHandle() {
         progressBar.setIndeterminate(false);
         progressBar.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        compositeDisposable.dispose();
     }
 }
