@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     protected BottomNavigationView navigation;
 
     private ActionBar toolbar;
-    private SharedPreferencesUtil sharedPreferencesUtil;
     private String TOKEN = null;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -63,8 +62,7 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         toolbar.hide();
         getSupportActionBar().setTitle("Events");
-        sharedPreferencesUtil = new SharedPreferencesUtil(this);
-        TOKEN = sharedPreferencesUtil.getString(ConstantStrings.TOKEN, null);
+        TOKEN = SharedPreferencesUtil.getString(ConstantStrings.TOKEN, null);
 
         EventsFragment eventsFragment = new EventsFragment();
         loadFragment(eventsFragment);
