@@ -1,5 +1,6 @@
 package org.fossasia.openevent.general;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,26 +13,26 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import org.fossasia.openevent.general.model.User;
 import org.fossasia.openevent.general.rest.ApiClient;
+import org.fossasia.openevent.general.rest.ApiInterface;
 import org.fossasia.openevent.general.utils.ConstantStrings;
 import org.fossasia.openevent.general.utils.JWTUtils;
 import org.fossasia.openevent.general.utils.SharedPreferencesUtil;
-import com.squareup.picasso.Picasso;
-
 import org.json.JSONException;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import timber.log.Timber;
 
 
 public class ProfileFragment extends Fragment {
 
     private static final String app="application/vnd.api+json";
-    private User user;
-    private static String TOKEN = null;
+    private String TOKEN = null;
     private long userId=-1;
     private TextView firstNameTv;
     private TextView emailTv;
@@ -39,10 +40,11 @@ public class ProfileFragment extends Fragment {
     private CardView logout;
     private ProgressBar progressBar;
     private SharedPreferencesUtil sharedPreferencesUtil;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public ProfileFragment(){
+
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +60,8 @@ public class ProfileFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+
     }
 
     private void redirectToLogin() {
@@ -78,43 +82,46 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 sharedPreferencesUtil.remove(ConstantStrings.TOKEN);
                 redirectToLogin();
+
             }
         });
         avatarImageView = view.findViewById(R.id.avatar_image_view);
         progressBar= view.findViewById(R.id.progressHeaderUser);
 
+
         progressBar.setIndeterminate(true);
 
-        compositeDisposable.add(ApiClient.getClient2(TOKEN).getProfile(userId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> {
-                    if(response.isSuccessful()){
+        ApiInterface apiService = ApiClient.getClient2(TOKEN);
+        Call<User> call = apiService.getProfile(userId);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if(response.isSuccessful()){
 
-                        progressBar.setIndeterminate(false);
-                        progressBar.setVisibility(View.GONE);
-                        Timber.d("Response Success");
-                        User userAttrib = response.body();
-                        firstNameTv.setText(userAttrib.getFirstName());
-                        emailTv.setText(userAttrib.getEmail());
+                    progressBar.setIndeterminate(false);
+                    progressBar.setVisibility(View.GONE);
+                    Timber.d("Response Success");
+                    User user = response.body();
+                    firstNameTv.setText(user.getFirstName());
+                    emailTv.setText(user.getEmail());
 
-                        Picasso.with(view.getContext())
-                                .load(userAttrib.getAvatarUrl())
-                                .placeholder(R.drawable.ic_person_black_24dp)
-                                .transform(new CircleTransform())
-                                .into(avatarImageView);
-                    } else {
-                        Timber.d("Not Successfull, Error code : "+response.code());
-                    }
-                }, throwable -> {
-                    Timber.e("Failure" + "\n" + throwable.toString());
-                }));
+                    Picasso.with(view.getContext())
+                            .load(user.getAvatarUrl())
+                            .placeholder(R.drawable.ic_person_black_24dp)
+                            .transform(new CircleTransform())
+                            .into(avatarImageView);
+                } else {
+                    Timber.d("Not Successfull, Error code : "+response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Timber.e("Failure"+"\n"+t.toString());
+            }
+        });
+
         return view;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        compositeDisposable.dispose();
-    }
 }
