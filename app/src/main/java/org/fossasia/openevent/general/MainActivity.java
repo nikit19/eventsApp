@@ -16,6 +16,7 @@ import org.fossasia.openevent.general.utils.SharedPreferencesUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -56,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Timber Initialization
+        Timber.plant(new Timber.DebugTree());
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
