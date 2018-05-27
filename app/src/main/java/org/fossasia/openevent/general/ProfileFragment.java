@@ -68,6 +68,10 @@ public class ProfileFragment extends Fragment {
         Intent i =new Intent(getActivity(),LoginActivity.class);
         startActivity(i);
     }
+    private void redirectToMain() {
+        Intent i = new Intent(getActivity(),MainActivity.class);
+        startActivity(i);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -81,7 +85,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 sharedPreferencesUtil.remove(ConstantStrings.TOKEN);
-                redirectToLogin();
+                redirectToMain();
 
             }
         });
