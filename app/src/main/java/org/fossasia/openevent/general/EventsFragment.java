@@ -6,15 +6,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import org.fossasia.openevent.general.model.Event;
 import org.fossasia.openevent.general.rest.ApiClient;
-import org.fossasia.openevent.general.utils.ConstantStrings;
-import org.fossasia.openevent.general.utils.SharedPreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +24,11 @@ import timber.log.Timber;
 
 public class EventsFragment extends Fragment {
 
-    private static final String app = "application/vnd.api+json";
     private List<Event> eventList;
     private RecyclerView recyclerView;
     private EventsRecyclerAdapter eventsRecyclerAdapter;
     private ProgressBar progressBar;
     private LinearLayoutManager linearLayoutManager;
-    private static String TOKEN = null;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public EventsFragment() {
@@ -42,8 +37,6 @@ public class EventsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TOKEN = SharedPreferencesUtil.getString(ConstantStrings.TOKEN,null);
-        TOKEN = "JWT "+TOKEN;
     }
 
     @Override
@@ -64,7 +57,7 @@ public class EventsFragment extends Fragment {
         recyclerView.setAdapter(eventsRecyclerAdapter);
         recyclerView.setNestedScrollingEnabled(false);
 
-        compositeDisposable.add(ApiClient.getClient2(TOKEN).getEvents(app)
+        compositeDisposable.add(ApiClient.getOpenEventAPI().getEvents()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
