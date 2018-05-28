@@ -87,7 +87,7 @@ public class ProfileFragment extends Fragment {
 
         progressBar.setIndeterminate(true);
 
-        compositeDisposable.add(ApiClient.getClient2(TOKEN).getProfile(userId)
+        compositeDisposable.add(ApiClient.getClient2().getProfile(userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {

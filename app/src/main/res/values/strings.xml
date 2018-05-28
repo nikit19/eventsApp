@@ -12,10 +12,16 @@
     <string name="event_card_date">Event Date :</string>
 
     <!--profile details-->
+    <string name="email">Email</string>
     <string name="user_name">Username</string>
     <string name="logout">Logout</string>
     <string name="login">Login</string>
     <string name="sign_in">No account yet? Create one</string>
-    <string name="email">example@gmail.com</string>
+    <string name="example_email">example@gmail.com</string>
+
+    <!--auth details-->
+    <string name="error_email_required">Email address is required</string>
+    <string name="error_enter_valid_email">Enter valid email adress</string>
+    <string name="error_password_required">Password is required</string>
 
 </resources>

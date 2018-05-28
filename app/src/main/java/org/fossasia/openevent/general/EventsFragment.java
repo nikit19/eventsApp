@@ -64,7 +64,7 @@ public class EventsFragment extends Fragment {
         recyclerView.setAdapter(eventsRecyclerAdapter);
         recyclerView.setNestedScrollingEnabled(false);
 
-        compositeDisposable.add(ApiClient.getClient2(TOKEN).getEvents(app)
+        compositeDisposable.add(ApiClient.getClient2().getEvents(app)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
