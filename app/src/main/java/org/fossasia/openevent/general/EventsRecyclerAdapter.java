@@ -80,7 +80,7 @@ public class EventsRecyclerAdapter extends RecyclerView.Adapter<EventsRecyclerAd
 
         Attributes attributes = events.get(position).getAttributes();
         holder.eventNameTv.setText(attributes.getName());
-        holder.description.setText(attributes.getDesciption());
+        holder.description.setText(attributes.getDescription());
 
         String[] splitDay = dateFormat(attributes).split(" ");
         holder.startsAtDay.setText(splitDay[0]);
