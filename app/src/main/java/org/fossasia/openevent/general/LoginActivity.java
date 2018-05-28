@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import org.fossasia.openevent.general.model.Login;
 import org.fossasia.openevent.general.rest.ApiClient;
+import org.fossasia.openevent.general.utils.AuthUtil;
 import org.fossasia.openevent.general.utils.ConstantStrings;
 import org.fossasia.openevent.general.utils.SharedPreferencesUtil;
 
@@ -29,25 +30,16 @@ public class LoginActivity extends AppCompatActivity {
     protected Button loginBtn;
 
     ProgressDialog progressDialog;
-    public static String TOKEN=null;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        String token = SharedPreferencesUtil.getString(ConstantStrings.TOKEN,null);
-        Timber.d("Token is "+token);
-        if(token != null)
+        if(AuthUtil.isUserLoggedIn() == true){
             redirectToMain();
-
+        }
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        Intent i = getIntent();
-        String temp = i.getStringExtra("LOGOUT");
-        if(temp != null && temp.equals("TRUE")){
-            TOKEN = null;
-        }
 
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setMessage("Logging you in...");
@@ -68,25 +60,23 @@ public class LoginActivity extends AppCompatActivity {
     public void loginUser(String title, String body) {
 
         Login login=new Login(title.trim(),body.trim()) ;
-        compositeDisposable.add(ApiClient.getClient2(TOKEN).login(login)
+        compositeDisposable.add(ApiClient.getOpenEventAPI().login(login)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     if(response.isSuccessful()) {
                         String accessToken = response.body().getAccessToken();
                         Toast.makeText(getApplicationContext(), "Success! " , Toast.LENGTH_LONG).show();
-                        TOKEN = accessToken;
+                        SharedPreferencesUtil.putString(ConstantStrings.TOKEN,accessToken);
                     } else {
                         Toast.makeText(getApplicationContext(), "Error Occured "+response.code(), Toast.LENGTH_LONG).show();
                         Timber.d("Error "+response.code()+"\n"+"Error body "+response.errorBody());
                     }
                     progressDialog.cancel();
-                    SharedPreferencesUtil.putString(ConstantStrings.TOKEN,TOKEN);
-                    if(TOKEN!=null)
-                        redirectToMain();
+                    redirectToMain();
                 }, throwable -> {
-                    TOKEN = null;
                     progressDialog.cancel();
+                    redirectToMain();
                     Toast.makeText(getApplicationContext(), "Unable to Login !" , Toast.LENGTH_LONG).show();
                     Timber.e("Failure"+"\n"+throwable.toString());
                 }));

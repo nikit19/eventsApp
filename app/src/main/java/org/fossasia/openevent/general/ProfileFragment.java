@@ -11,14 +11,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import org.fossasia.openevent.general.model.User;
 import org.fossasia.openevent.general.rest.ApiClient;
+import org.fossasia.openevent.general.utils.AuthUtil;
 import org.fossasia.openevent.general.utils.ConstantStrings;
 import org.fossasia.openevent.general.utils.JWTUtils;
 import org.fossasia.openevent.general.utils.SharedPreferencesUtil;
-import com.squareup.picasso.Picasso;
-
 import org.json.JSONException;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -29,10 +31,6 @@ import timber.log.Timber;
 
 public class ProfileFragment extends Fragment {
 
-    private static final String app="application/vnd.api+json";
-    private User user;
-    private static String TOKEN = null;
-    private long userId=-1;
     private TextView firstNameTv;
     private TextView emailTv;
     private ImageView avatarImageView;
@@ -46,16 +44,8 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TOKEN = SharedPreferencesUtil.getString(ConstantStrings.TOKEN,null);
-        if(TOKEN == null)
+        if(AuthUtil.isUserLoggedIn() == false)
             redirectToLogin();
-        TOKEN = "JWT "+TOKEN;
-        try {
-            userId = JWTUtils.getIdentity(TOKEN);
-            Timber.d("User id is %s", userId);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     private void redirectToLogin() {
@@ -86,31 +76,40 @@ public class ProfileFragment extends Fragment {
         progressBar= view.findViewById(R.id.progressHeaderUser);
 
         progressBar.setIndeterminate(true);
+        int id=-1;
+        try {
+            id = JWTUtils.getIdentity(AuthUtil.getAuthorization());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if(id!=-1) {
+            compositeDisposable.add(ApiClient.getOpenEventAPI().getProfile(id)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(response -> {
+                        if (response.isSuccessful()) {
 
-        compositeDisposable.add(ApiClient.getClient2(TOKEN).getProfile(userId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> {
-                    if(response.isSuccessful()){
+                            progressBar.setIndeterminate(false);
+                            progressBar.setVisibility(View.GONE);
+                            Timber.d("Response Success");
+                            User userAttrib = response.body();
+                            firstNameTv.setText(userAttrib.getFirstName());
+                            emailTv.setText(userAttrib.getEmail());
 
-                        progressBar.setIndeterminate(false);
-                        progressBar.setVisibility(View.GONE);
-                        Timber.d("Response Success");
-                        User userAttrib = response.body();
-                        firstNameTv.setText(userAttrib.getFirstName());
-                        emailTv.setText(userAttrib.getEmail());
-
-                        Picasso.with(view.getContext())
-                                .load(userAttrib.getAvatarUrl())
-                                .placeholder(R.drawable.ic_person_black_24dp)
-                                .transform(new CircleTransform())
-                                .into(avatarImageView);
-                    } else {
-                        Timber.d("Not Successfull, Error code : "+response.code());
-                    }
-                }, throwable -> {
-                    Timber.e("Failure" + "\n" + throwable.toString());
-                }));
+                            Picasso.with(view.getContext())
+                                    .load(userAttrib.getAvatarUrl())
+                                    .placeholder(R.drawable.ic_person_black_24dp)
+                                    .transform(new CircleTransform())
+                                    .into(avatarImageView);
+                        } else {
+                            Timber.d("Not Successfull, Error code : " + response.code());
+                        }
+                    }, throwable -> {
+                        Timber.e("Failure" + "\n" + throwable.toString());
+                    }));
+        } else {
+            Toast.makeText(getContext(),"Try later",Toast.LENGTH_SHORT).show();
+        }
         return view;
     }
 
