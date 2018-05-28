@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
-
 android {
     compileSdkVersion 27
     buildToolsVersion "27.0.1"
@@ -74,4 +73,8 @@ dependencies {
 // Architecture Components
     implementation "android.arch.lifecycle:extensions:1.1.0"
     implementation "android.arch.lifecycle:reactivestreams:1.1.0"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }
