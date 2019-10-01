@@ -51,6 +51,8 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
+            android:textColor="@color/white"
+            android:background="@color/colorPrimaryDark"
             android:text="@string/login"/>
 
         <TextView android:id="@+id/link_signup"
@@ -59,6 +61,7 @@
             android:layout_marginBottom="24dp"
             android:text="@string/sign_in"
             android:gravity="center"
+            android:textColor="@color/black"
             android:textSize="16dip"/>
 
     </LinearLayout>

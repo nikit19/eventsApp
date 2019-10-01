@@ -34,7 +34,7 @@
             android:scaleType="centerCrop"
             android:id="@+id/avatar_image_view"
             android:layout_marginBottom="@dimen/layout_margin_small"
-            android:src="@drawable/ic_account_circle_grey_24dp"
+            android:src="@drawable/ic_account_circle_black_24dp"
             android:layout_height="120dp" />
 
         <TextView
@@ -52,6 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/logout_btn"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            android:layout_margin="@dimen/layout_margin_extra_small"
             app:cardBackgroundColor="@color/white">
             <FrameLayout
                 android:layout_width="match_parent"
@@ -62,7 +64,8 @@
                 <TextView
                     android:layout_gravity="center|start"
                     android:layout_width="wrap_content"
-                    android:textColor="@color/black"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold"
                     android:layout_height="wrap_content"
                     android:text="@string/logout"/>
 
@@ -70,7 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|end"
-                    android:src="@drawable/ic_exit_to_app_black_24dp"/>
+                    android:src="@drawable/ic_exit_to_app_white_24dp"/>
             </FrameLayout>
         </android.support.v7.widget.CardView>
     </LinearLayout>
